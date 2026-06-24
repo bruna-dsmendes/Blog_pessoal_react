@@ -1,7 +1,7 @@
 function Home() {
   return (
     <>
-      <div className="bg-indigo-900">
+      <div className="bg-[#00B7EB]">
         <div className="container grid grid-cols-2 text-white">
           <div className="flex flex-col gap-4 items-center justify-center py-4">
             <h2 className="text-5xl font-bold"> Seja Bem Vindo! </h2>
@@ -18,7 +18,7 @@ function Home() {
 
           <div className="flex justify-center">
             <img
-              src="https://ik.imagekit.io/bruumendes/home.png"
+              src="https://ik.imagekit.io/bruumendes/Gemini_Generated_Image_36kd9736kd9736kd.png"
               alt="Imagem Página Home"
               className="w-2/3"
             />
