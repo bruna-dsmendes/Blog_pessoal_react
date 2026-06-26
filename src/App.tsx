@@ -9,17 +9,19 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Navbar />
+        <div className='flex flex-col min-h-screen'>
+          <Navbar />
 
-        <div className='min-h-[80vh]'>
-          <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/cadastro" element={<Cadastro />} />
-          </Routes>
+          <div className='flex-gro'>
+            <Routes>
+              <Route path="/" element={<Login />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/cadastro" element={<Cadastro />} />
+            </Routes>
+          </div>
+
+          <Footer />
         </div>
-
-        <Footer />
       </BrowserRouter>
     </>
   );

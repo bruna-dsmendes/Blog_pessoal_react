@@ -4,9 +4,9 @@ function Login() {
 
   return (
     <>
-      <div className="grid grid-cols-1 lg:grid-cols-2 h-screen place-items-center font-bold ">
-        <form className="flex justify-center items-center flex-col w-1/2 gap-4 ">
-          <h2 className="text-slate-900 text-5xl ">Entrar</h2>
+      <div className="grid grid-cols-1 lg:grid-cols-2 h-auto lg:h-[calc(100vh-180px)] place-items-center font-bold px-4 py-8 lg:py-0">
+        <form className="flex justify-center items-center flex-col w-full lg:w-1/2 gap-4">
+          <h2 className="text-slate-900 text-5xl">Entrar</h2>
 
           {/* Campo: Usuário */}
           <div className="flex flex-col w-full">
@@ -35,7 +35,7 @@ function Login() {
           {/* Botão de Entrar */}
           <button
             type='submit'
-            className="rounded bg-indigo-400 flex justify-center hover:bg-indigo-900 text-white w-1/2 py-2"
+            className="rounded bg-pink-300 flex justify-center hover:bg-indigo-900 text-white w-1/2 py-2"
           >
             <span>Entrar</span>
           </button>
@@ -51,9 +51,8 @@ function Login() {
           </p>
         </form>
 
-        {/* Div da Imagem de Fundo (visível apenas em telas grandes) */}
         <div
-          className="bg-[url('https://ik.imagekit.io/bruumendes/Gemini_Generated_Image_vy21m7vy21m7vy21.png')] lg:block hidden bg-no-repeat w-full min-h-screen bg-cover bg-center"
+          className="hidden lg:block w-full h-full bg-[url('https://ik.imagekit.io/bruumendes/Gemini_Generated_Image_vy21m7vy21m7vy21.png')] bg-no-repeat bg-cover bg-center"
         ></div>
       </div>
     </>
