@@ -37,7 +37,7 @@ function Login() {
       <div className="grid grid-cols-1 lg:grid-cols-2 h-auto lg:h-[calc(100vh-180px)] place-items-center font-bold px-4 py-8 lg:py-0">
         <form className="flex justify-center items-center flex-col w-full lg:w-1/2 gap-4"
           onSubmit={login} >
-          <h2 className="text-slate-900 text-5xl">Entrar</h2>
+          <h2 className="text-sky-900 text-5xl">Entrar</h2>
 
           {/* Campo: Usuário */}
           <div className="flex flex-col w-full">
@@ -47,7 +47,7 @@ function Login() {
               id="usuario"
               name="usuario"
               placeholder="Usuario"
-              className="border-2 border-slate-700 rounded p-2"
+              className="border-2 border-sky-200 rounded p-2"
               value={usuarioLogin.usuario}
               onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
             />
@@ -61,7 +61,7 @@ function Login() {
               id="senha"
               name="senha"
               placeholder="Senha"
-              className="border-2 border-slate-700 rounded p-2"
+              className="border-2 border-sky-200 rounded p-2"
               value={usuarioLogin.senha}
               onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
             />
@@ -70,21 +70,21 @@ function Login() {
           {/* Botão de Entrar */}
           <button
             type='submit'
-            className="rounded bg-pink-300 flex justify-center hover:bg-indigo-900 text-white w-1/2 py-2">
+            className="rounded bg-sky-200 flex justify-center hover:bg-sky-300 text-sky-900 w-1/2 py-2">
 
             {isLoading ?
-              <ClipLoader color="#ffffff" size={24}
+              <ClipLoader color="#0c4a6e" size={24}
               /> :
               <span>Entrar</span>
             }
           </button>
 
-          <hr className="border-slate-800 w-full" />
+          <hr className="border-sky-200 w-full" />
 
           {/* Link para Cadastro */}
           <p>
             Ainda não tem uma conta?{' '}
-            <Link to="/cadastro" className="text-indigo-800 hover:underline">
+            <Link to="/cadastro" className="text-sky-700 hover:underline">
               Cadastre-se
             </Link>
           </p>

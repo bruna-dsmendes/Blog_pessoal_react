@@ -71,7 +71,7 @@ function Cadastro() {
 
         <form className='flex justify-center items-center flex-col w-full lg:w-2/3 gap-3'
           onSubmit={cadastrarNovoUsuario}>
-          <h2 className='text-slate-900 text-5xl'>Cadastrar</h2>
+          <h2 className='text-sky-900 text-5xl'>Cadastrar</h2>
 
           <div className="flex flex-col w-full">
             <label htmlFor="nome">Nome</label>
@@ -80,7 +80,7 @@ function Cadastro() {
               id="nome"
               name="nome"
               placeholder="Nome"
-              className="border-2 border-slate-700 rounded p-2"
+              className="border-2 border-sky-200 rounded p-2"
               value={usuario.nome}
               onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
             />
@@ -93,7 +93,7 @@ function Cadastro() {
               id="usuario"
               name="usuario"
               placeholder="Usuario"
-              className="border-2 border-slate-700 rounded p-2"
+              className="border-2 border-sky-200 rounded p-2"
               value={usuario.usuario}
               onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
             />
@@ -106,7 +106,7 @@ function Cadastro() {
               id="foto"
               name="foto"
               placeholder="Foto"
-              className="border-2 border-slate-700 rounded p-2"
+              className="border-2 border-sky-200 rounded p-2"
               value={usuario.foto}
               onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
             />
@@ -119,7 +119,7 @@ function Cadastro() {
               id="senha"
               name="senha"
               placeholder="Senha"
-              className="border-2 border-slate-700 rounded p-2"
+              className="border-2 border-sky-200 rounded p-2"
               value={usuario.senha}
               onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
             />
@@ -132,7 +132,7 @@ function Cadastro() {
               id="confirmarSenha"
               name="confirmarSenha"
               placeholder="Confirmar Senha"
-              className="border-2 border-slate-700 rounded p-2"
+              className="border-2 border-sky-200 rounded p-2"
               value={confirmarSenha}
               onChange={(e: ChangeEvent<HTMLInputElement>) => handleConfirmarSenha(e)}
             />
@@ -142,15 +142,15 @@ function Cadastro() {
           <div className="flex justify-around w-full gap-8">
             <button
               type='reset'
-              className='rounded text-white bg-pink-600 hover:bg-[#00B7EB] w-1/2 py-2'
+              className='rounded text-white bg-sky-50 hover:bg-sky-100 text-sky-900 w-1/2 py-2 border border-sky-200'
               onClick={retornar} >Cancelar</button>
             <button
               type='submit'
-              className='rounded text-white bg-[#00B7EB] hover:bg-pink-600 w-1/2 py-2 flex justify-center'
+              className='rounded text-white bg-sky-200 hover:bg-sky-300 text-sky-900 w-1/2 py-2 flex justify-center'
               disabled={isLoading}>
 
               {isLoading ?
-                <ClipLoader color="#ffffff" size={24} /> :
+                <ClipLoader color="#0c4a6e" size={24} /> :
                 <span> Cadastrar</span>
               }
             </button>

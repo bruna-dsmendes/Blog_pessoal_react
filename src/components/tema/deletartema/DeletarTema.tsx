@@ -80,24 +80,24 @@ function DeletarTema() {
       </p>
       <div className='border flex flex-col rounded-2xl overflow-hidden justify-between'>
         <header
-          className='py-2 px-6 bg-indigo-600 text-white font-bold text-2xl'>
+          className='py-2 px-6 bg-sky-100 text-sky-900 font-bold text-2xl border-b border-sky-200'>
           Tema
         </header>
-        <p className='p-8 text-3xl bg-slate-200 h-full'>{tema.descricao}</p>
+        <p className='p-8 text-3xl bg-white h-full text-sky-800'>{tema.descricao}</p>
         <div className="flex">
           <button
-            className='text-slate-100 bg-pink-300 hover:bg-pink-600 w-full py-2'
+            className='text-sky-900 bg-sky-50 hover:bg-sky-100 w-full py-2 border-r border-sky-200'
             onClick={retornar}>
             Não
           </button>
           <button
-            className='w-full text-slate-100 bg-indigo-400 
-                        hover:bg-indigo-600 flex items-center justify-center'
+            className='w-full text-sky-900 bg-sky-200 
+96	                        hover:bg-sky-300 flex items-center justify-center'
             onClick={deletarTema}>
 
             {isLoading ?
               <ClipLoader
-                color="#ffffff"
+                color="#0c4a6e"
                 size={24}
               /> :
               <span>Sim</span>
