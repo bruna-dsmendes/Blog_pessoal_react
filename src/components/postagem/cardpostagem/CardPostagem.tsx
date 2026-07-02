@@ -31,7 +31,7 @@ function CardPostagem({ postagem }: CardPostagensProps) {
         </div>
       </div>
       <div className="flex">
-        <Link to=''
+        <Link to={`/editarpostagem/${postagem.id}`}
           className='w-full text-sky-900 bg-sky-100 
 17	                    hover:bg-sky-200 flex items-center justify-center py-2'>
           <button>Editar</button>
