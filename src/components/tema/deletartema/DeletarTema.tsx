@@ -78,7 +78,7 @@ function DeletarTema() {
       <p className='text-center font-semibold mb-4'>
         Você tem certeza de que deseja apagar o tema a seguir?
       </p>
-      <div className='border flex flex-col rounded-2xl overflow-hidden justify-between'>
+      <div className='border border-sky-200 flex flex-col rounded-2xl overflow-hidden justify-between'>
         <header
           className='py-2 px-6 bg-sky-100 text-sky-900 font-bold text-2xl border-b border-sky-200'>
           Tema
@@ -86,13 +86,12 @@ function DeletarTema() {
         <p className='p-8 text-3xl bg-white h-full text-sky-800'>{tema.descricao}</p>
         <div className="flex">
           <button
-            className='text-sky-900 bg-sky-50 hover:bg-sky-100 w-full py-2 border-r border-sky-200'
+            className='text-red-900 bg-red-200 hover:bg-red-300 w-full py-2'
             onClick={retornar}>
             Não
           </button>
           <button
-            className='w-full text-sky-900 bg-sky-200 
-96	                        hover:bg-sky-300 flex items-center justify-center'
+            className='w-full text-sky-900 bg-sky-200 hover:bg-sky-300 flex items-center justify-center'
             onClick={deletarTema}>
 
             {isLoading ?
