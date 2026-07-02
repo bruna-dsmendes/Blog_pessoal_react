@@ -107,20 +107,20 @@ function FormTema() {
             type="text"
             placeholder="Descreva aqui seu tema"
             name='descricao'
-            className="border-2 border-slate-700 rounded p-2"
+            className="border-2 border-sky-200 rounded p-2"
             value={tema.descricao}
             onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
           />
         </div>
 
         <button
-          className="rounded text-slate-100 bg-pink-300 
-                    hover:bg-[#00B7EB] w-1/2 py-2 mx-auto flex justify-center"
+          className="rounded text-sky-900 bg-sky-200 
+119	                    hover:bg-sky-300 w-1/2 py-2 mx-auto flex justify-center"
           type="submit">
 
           {isLoading ?
             <ClipLoader
-              color="#ffffff"
+              color="#0c4a6e"
               size={24}
             /> :
             <span>{id === undefined ?
