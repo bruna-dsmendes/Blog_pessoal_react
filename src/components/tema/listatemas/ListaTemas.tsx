@@ -1,6 +1,6 @@
 import CardTema from "../cardtema/CardTema"
 import { useNavigate } from "react-router-dom";
-import { SyncLoader } from "react-spinners";
+import { RiseLoader } from "react-spinners";
 import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../../contexts/AuthContext";
 import type Tema from "../../../models/Tema";
@@ -44,7 +44,7 @@ function ListaTemas() {
 
   return (
     <>
-      {isLoading && (<SyncLoader color="pink-300" size={32}
+      {isLoading && (<RiseLoader color="pink-300" size={32}
       />
       )}
       <div className="flex justify-center w-full my-4">

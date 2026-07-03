@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthContext";
 import type Tema from "../../../models/Tema";
 import { buscar, atualizar, cadastrar } from "../../../services/Service";
-import { ClipLoader } from "react-spinners";
+import { PropagateLoader } from "react-spinners";
 
 function FormTema() {
 
@@ -119,7 +119,7 @@ function FormTema() {
           type="submit">
 
           {isLoading ?
-            <ClipLoader
+            <PropagateLoader
               color="#0c4a6e"
               size={24}
             /> :

@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { AuthContext } from "../../../contexts/AuthContext"
 import type Postagem from "../../../models/Postagem"
 import { buscar, deletar } from "../../../services/Service"
-import { ClipLoader } from "react-spinners"
+import { PacmanLoader } from "react-spinners"
 
 function DeletarPostagem() {
 
@@ -100,7 +100,7 @@ function DeletarPostagem() {
             onClick={deletarPostagem}>
 
             {isLoading ?
-              <ClipLoader
+              <PacmanLoader
                 color="#0c4a6e"
                 size={24}
               /> :

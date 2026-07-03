@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { SyncLoader } from "react-spinners";
+import { RiseLoader } from "react-spinners";
 import { AuthContext } from "../../../contexts/AuthContext";
 import type Postagem from "../../../models/Postagem";
 import { buscar } from "../../../services/Service";
@@ -50,7 +50,7 @@ function ListaPostagens() {
 
       {isLoading && (
         <div className="flex justify-center w-full my-8">
-          <SyncLoader
+          <RiseLoader
             color="#312e81"
             size={32}
           />

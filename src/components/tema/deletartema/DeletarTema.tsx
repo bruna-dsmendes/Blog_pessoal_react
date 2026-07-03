@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthContext";
 import type Tema from "../../../models/Tema";
 import { buscar, deletar } from "../../../services/Service";
-import { ClipLoader } from "react-spinners";
+import { PacmanLoader } from "react-spinners";
 
 function DeletarTema() {
 
@@ -95,7 +95,7 @@ function DeletarTema() {
             onClick={deletarTema}>
 
             {isLoading ?
-              <ClipLoader
+              <PacmanLoader
                 color="#0c4a6e"
                 size={24}
               /> :

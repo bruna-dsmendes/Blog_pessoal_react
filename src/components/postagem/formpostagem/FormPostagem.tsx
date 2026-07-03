@@ -4,7 +4,7 @@ import { AuthContext } from "../../../contexts/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
 import type Tema from "../../../models/Tema";
 import { buscar, atualizar, cadastrar } from "../../../services/Service";
-import { ClipLoader } from "react-spinners";
+import { PropagateLoader } from "react-spinners";
 
 function FormPostagem() {
 
@@ -195,7 +195,7 @@ function FormPostagem() {
           disabled={carregandoTema}
         >
           {isLoading ?
-            <ClipLoader
+            <PropagateLoader
               color="#ffffff"
               size={24}
             /> :

@@ -2,7 +2,7 @@ import { useContext, useEffect, useState, type ChangeEvent, type FormEvent } fro
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import type UsuarioLogin from "../../models/UsuarioLogin";
-import { ClipLoader } from "react-spinners";
+import { RiseLoader } from "react-spinners";
 
 
 function Login() {
@@ -73,7 +73,7 @@ function Login() {
             className="rounded bg-sky-200 flex justify-center hover:bg-sky-300 text-sky-900 w-1/2 py-2">
 
             {isLoading ?
-              <ClipLoader color="#0c4a6e" size={24}
+              <RiseLoader color="#0c4a6e" size={24}
               /> :
               <span>Entrar</span>
             }

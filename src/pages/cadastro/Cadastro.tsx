@@ -1,6 +1,6 @@
 import { useState, type ChangeEvent, type FormEvent } from "react"
 import { useNavigate } from "react-router-dom"
-import { ClipLoader } from "react-spinners";
+import { PacmanLoader } from "react-spinners";
 import type Usuario from "../../models/Usuario"
 import { cadastrarUsuario } from "../../services/Service"
 
@@ -21,7 +21,7 @@ function Cadastro() {
   })
 
   function retornar() {
-    navigate('/') // Redireciona para a página de login
+    navigate('/')
   }
 
   function atualizarEstado(e: ChangeEvent<HTMLInputElement>) {
@@ -45,10 +45,9 @@ function Cadastro() {
         await cadastrarUsuario(`/usuarios/cadastrar`, usuario, setUsuario)
         alert('Usuário cadastrado com sucesso!')
 
-        // Redirecionar para a página de login após o cadastro bem-sucedido
         setTimeout(() => {
           navigate('/')
-        }, 500) // Pequeno delay para garantir que o alert seja visto
+        }, 500)
 
       } catch (error) {
         alert('Erro ao cadastrar o usuário!')
@@ -142,15 +141,15 @@ function Cadastro() {
           <div className="flex justify-around w-full gap-8">
             <button
               type='reset'
-              className='rounded text-white bg-sky-50 hover:bg-sky-100 text-sky-900 w-1/2 py-2 border border-sky-200'
+              className='rounded  bg-sky-50 hover:bg-sky-100 text-sky-900 w-1/2 py-2 border border-sky-200'
               onClick={retornar} >Cancelar</button>
             <button
               type='submit'
-              className='rounded text-white bg-sky-200 hover:bg-sky-300 text-sky-900 w-1/2 py-2 flex justify-center'
+              className='rounded bg-sky-200 hover:bg-sky-300 text-sky-900 w-1/2 py-2 flex justify-center'
               disabled={isLoading}>
 
               {isLoading ?
-                <ClipLoader color="#0c4a6e" size={24} /> :
+                <PacmanLoader color="#0c4a6e" size={24} /> :
                 <span> Cadastrar</span>
               }
             </button>
