@@ -28,7 +28,7 @@ function ListaPostagens() {
 
   useEffect(() => {
     buscarPostagens()
-  }, [postagens.length])
+  }, [])
 
   async function buscarPostagens() {
     try {
@@ -63,7 +63,7 @@ function ListaPostagens() {
         <div className="container flex flex-col">
 
           <div className="flex justify-end mb-4">
-            <ModalPostagem />
+            <ModalPostagem onSuccess={buscarPostagens} />
           </div>
 
           {(!isLoading && postagens.length === 0) && (

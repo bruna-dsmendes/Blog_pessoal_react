@@ -3,7 +3,7 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import FormPostagem from '../formpostagem/FormPostagem';
 
-function ModalPostagem() {
+function ModalPostagem({ onSuccess }: { onSuccess: () => void }) {
   return (
     <>
       <Popup
@@ -19,7 +19,7 @@ function ModalPostagem() {
           paddingBottom: '2rem'
         }}
       >
-        <FormPostagem />
+        <FormPostagem onSuccess={onSuccess} />
       </Popup>
     </>
   );

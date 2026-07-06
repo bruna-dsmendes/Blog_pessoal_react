@@ -3,7 +3,7 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import FormTema from '../formtema/FormTema';
 
-function ModalTema() {
+function ModalTema({ onSuccess }: { onSuccess: () => void }) {
   return (
     <>
       <Popup
@@ -19,7 +19,7 @@ function ModalTema() {
           paddingBottom: '2rem'
         }}
       >
-        <FormTema />
+        <FormTema onSuccess={onSuccess} />
       </Popup>
     </>
   );

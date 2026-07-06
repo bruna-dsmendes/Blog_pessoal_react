@@ -27,7 +27,7 @@ function ListaTemas() {
 
   useEffect(() => {
     buscarTemas()
-  }, [temas.length])
+  }, [])
 
   async function buscarTemas() {
     try {
@@ -53,7 +53,7 @@ function ListaTemas() {
         <div className="container flex flex-col">
 
           <div className="flex justify-end mb-4">
-            <ModalTema />
+            <ModalTema onSuccess={buscarTemas} />
           </div>
 
           {(!isLoading && temas.length === 0) && (

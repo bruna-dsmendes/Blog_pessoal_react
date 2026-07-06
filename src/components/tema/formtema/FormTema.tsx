@@ -6,7 +6,7 @@ import { buscar, atualizar, cadastrar } from "../../../services/Service";
 import { PropagateLoader } from "react-spinners";
 import { ToastAlerta } from "../../../utils/ToastAlerta";
 
-function FormTema() {
+function FormTema({ onSuccess }: { onSuccess: () => void }) {
 
   const navigate = useNavigate();
 
@@ -79,6 +79,7 @@ function FormTema() {
           headers: { 'Authorization': token }
         })
         ToastAlerta('O Tema foi cadastrado com sucesso!', 'sucesso')
+        onSuccess?.()
       } catch (error: any) {
         if (error.toString().includes('401')) {
           handleLogout();
@@ -89,7 +90,7 @@ function FormTema() {
     }
 
     setIsLoading(false)
-    retornar()
+    if (!onSuccess) retornar()
   }
 
 
