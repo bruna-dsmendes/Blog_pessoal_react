@@ -1,4 +1,5 @@
 import CardTema from "../cardtema/CardTema"
+import ModalTema from "../modaltema/ModalTema"
 import { useNavigate } from "react-router-dom";
 import { RiseLoader } from "react-spinners";
 import { useState, useContext, useEffect } from "react";
@@ -50,6 +51,10 @@ function ListaTemas() {
       )}
       <div className="flex justify-center w-full my-4">
         <div className="container flex flex-col">
+
+          <div className="flex justify-end mb-4">
+            <ModalTema />
+          </div>
 
           {(!isLoading && temas.length === 0) && (
             <span className="text-3xl text-center my-8">Nenhum tema foi encontrado!</span>
