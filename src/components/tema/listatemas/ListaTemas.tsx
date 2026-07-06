@@ -5,7 +5,7 @@ import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../../contexts/AuthContext";
 import type Tema from "../../../models/Tema";
 import { buscar } from "../../../services/Service";
-import { ToastAlerta } from "../../../utils/ToastAlerta";
+//import { ToastAlerta } from "../../../utils/ToastAlerta";
 
 function ListaTemas() {
 
@@ -19,7 +19,7 @@ function ListaTemas() {
 
   useEffect(() => {
     if (token === '') {
-      ToastAlerta('Você precisa estar logado!', 'info')
+      //ToastAlerta('Você precisa estar logado!', 'info')
       navigate('/')
     }
   }, [token])

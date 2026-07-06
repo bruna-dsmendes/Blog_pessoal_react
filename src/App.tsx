@@ -13,6 +13,8 @@ import ListaPostagens from './components/postagem/listapostagens/ListaPostagens'
 import FormPostagem from './components/postagem/formpostagem/FormPostagem';
 import DeletarPostagem from './components/postagem/deletarpostagem/DeletarPostagem';
 import Perfil from './pages/perfil/ Perfil';
+import FormPerfil from './components/perfil/formperfil/FormPerfil';
+import DeletarPerfil from './components/perfil/deletarperfil/DeletarPerfil';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
@@ -38,7 +40,8 @@ function App() {
                 <Route path="/editarpostagem/:id" element={<FormPostagem />} />
                 <Route path="/deletarpostagem/:id" element={<DeletarPostagem />} />
                 <Route path="/perfil" element={<Perfil />} />
-
+                <Route path="/editarperfil" element={<FormPerfil />} />
+                <Route path="/deletarperfil" element={<DeletarPerfil />} />
 
               </Routes>
             </div>

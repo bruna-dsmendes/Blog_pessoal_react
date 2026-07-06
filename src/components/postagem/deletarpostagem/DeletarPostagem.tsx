@@ -34,7 +34,7 @@ function DeletarPostagem() {
 
   useEffect(() => {
     if (token === '') {
-      ToastAlerta('Você precisa estar logado', "Info")
+      // ToastAlerta('Você precisa estar logado', "Info")
       navigate('/')
     }
   }, [token])
