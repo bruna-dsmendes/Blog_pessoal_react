@@ -1,7 +1,8 @@
 import { useContext, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 
 import { AuthContext } from "../../contexts/AuthContext"
+//import { ToastAlerta } from "../../utils/ToastAlerta"
 
 function Perfil() {
   const navigate = useNavigate()
@@ -10,7 +11,7 @@ function Perfil() {
 
   useEffect(() => {
     if (usuario.token === "") {
-      alert("Você precisa estar logado")
+      // ToastAlerta("Você precisa estar logado", 'info')
       navigate("/")
     }
   }, [usuario.token])
@@ -31,11 +32,29 @@ function Perfil() {
         />
 
         <div
-          className="relative mt-[-6rem]h-72 flex flex-col 
-                    bg-pink-50 text-slate-700 text-2xl items-center justify-center"
+          className="relative mt-[-6rem]h-auto flex flex-col 
+                    bg-pink-50 text-slate-700 text-2xl items-center justify-center pb-8"
         >
-          <p>Nome: {usuario.nome} </p>
+          <p className="mt-8">Nome: {usuario.nome} </p>
           <p>Email: {usuario.usuario}</p>
+
+          <div className="flex gap-4 mt-8">
+            <Link
+              to="/editarperfil"
+              className="rounded bg-sky-200 hover:bg-sky-300 text-sky-900 
+                         py-2 px-6 font-bold transition-colors"
+            >
+              Editar Perfil
+            </Link>
+
+            <Link
+              to="/deletarperfil"
+              className="rounded bg-red-200 hover:bg-red-300 text-red-900 
+                         py-2 px-6 font-bold transition-colors"
+            >
+              Deletar Perfil
+            </Link>
+          </div>
         </div>
       </div>
     </div>
