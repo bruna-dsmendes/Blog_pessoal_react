@@ -9,7 +9,7 @@ function Home() {
 
           <div className="flex flex-col gap-5 items-start justify-center pr-4">
             <h2 className="text-7xl font-black tracking-tight text-slate-800 leading-none">
-              <span className="bg-gradient-to-r from-slate-800 via-[#5ea2df] to-sky-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-rfrom-slate-800 via-[#5ea2df] to-sky-600 bg-clip-text text-transparent">
                 Simetria Dev
               </span>
             </h2>
