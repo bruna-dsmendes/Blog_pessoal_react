@@ -1,9 +1,11 @@
 import { useState, type ChangeEvent, type FormEvent } from "react"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { PacmanLoader } from "react-spinners";
 import type Usuario from "../../models/Usuario"
 import { cadastrarUsuario } from "../../services/Service"
 import { ToastAlerta } from "../../utils/ToastAlerta";
+
+const inputClass = "w-full border border-hairline rounded-md px-3.5 py-2.5 text-ink bg-paper placeholder:text-ink-faint outline-none focus:border-accent transition-colors"
 
 function Cadastro() {
 
@@ -63,102 +65,104 @@ function Cadastro() {
   }
 
   return (
-    <>
-      <div className="grid grid-cols-1 lg:grid-cols-2 h-auto lg:h-[calc(100vh-180px)] place-items-center font-bold px-4 py-8 lg:py-0">
-        <div
-          className="hidden lg:block w-full h-full bg-[url('https://ik.imagekit.io/bruumendes/Gemini_Generated_Image_enmmc4enmmc4enmm.png')] bg-no-repeat bg-cover bg-center"
-        ></div>
+    <div className="flex justify-center px-4 py-16 md:py-20">
+      <div className="w-full max-w-sm">
 
-        <form className='flex justify-center items-center flex-col w-full lg:w-2/3 gap-3'
-          onSubmit={cadastrarNovoUsuario}>
-          <h2 className='text-sky-900 text-5xl'>Cadastrar</h2>
+        <h1 className="font-serif text-3xl font-semibold text-ink text-center mb-8">
+          Crie sua conta
+        </h1>
 
-          <div className="flex flex-col w-full">
-            <label htmlFor="nome">Nome</label>
+        <form className="flex flex-col gap-4" onSubmit={cadastrarNovoUsuario}>
+
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="nome" className="text-sm font-medium text-ink-soft">Nome</label>
             <input
               type="text"
               id="nome"
               name="nome"
-              placeholder="Nome"
-              className="border-2 border-sky-200 rounded p-2"
+              placeholder="Seu nome completo"
+              className={inputClass}
               value={usuario.nome}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
+              onChange={atualizarEstado}
             />
           </div>
 
-          <div className="flex flex-col w-full">
-            <label htmlFor="usuario">Usuario</label>
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="usuario" className="text-sm font-medium text-ink-soft">E-mail</label>
             <input
               type="text"
               id="usuario"
               name="usuario"
-              placeholder="Usuario"
-              className="border-2 border-sky-200 rounded p-2"
+              placeholder="voce@email.com"
+              className={inputClass}
               value={usuario.usuario}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
+              onChange={atualizarEstado}
             />
           </div>
 
-          <div className="flex flex-col w-full">
-            <label htmlFor="foto">Foto</label>
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="foto" className="text-sm font-medium text-ink-soft">URL da foto</label>
             <input
               type="text"
               id="foto"
               name="foto"
-              placeholder="Foto"
-              className="border-2 border-sky-200 rounded p-2"
+              placeholder="https://..."
+              className={inputClass}
               value={usuario.foto}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
+              onChange={atualizarEstado}
             />
           </div>
 
-          <div className="flex flex-col w-full">
-            <label htmlFor="senha">Senha</label>
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="senha" className="text-sm font-medium text-ink-soft">Senha</label>
             <input
               type="password"
               id="senha"
               name="senha"
-              placeholder="Senha"
-              className="border-2 border-sky-200 rounded p-2"
+              placeholder="Mínimo de 8 caracteres"
+              className={inputClass}
               value={usuario.senha}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
+              onChange={atualizarEstado}
             />
           </div>
 
-          <div className="flex flex-col w-full">
-            <label htmlFor="confirmarSenha">Confirmar Senha</label>
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="confirmarSenha" className="text-sm font-medium text-ink-soft">Confirmar senha</label>
             <input
               type="password"
               id="confirmarSenha"
               name="confirmarSenha"
-              placeholder="Confirmar Senha"
-              className="border-2 border-sky-200 rounded p-2"
+              placeholder="Repita a senha"
+              className={inputClass}
               value={confirmarSenha}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => handleConfirmarSenha(e)}
+              onChange={handleConfirmarSenha}
             />
           </div>
 
-          {/* Botões */}
-          <div className="flex justify-around w-full gap-8">
+          <div className="flex gap-3 mt-2">
             <button
-              type='reset'
-              className='rounded  bg-sky-50 hover:bg-sky-100 text-sky-900 w-1/2 py-2 border border-sky-200'
-              onClick={retornar} >Cancelar</button>
+              type='button'
+              className="rounded-full text-ink-soft bg-paper border border-hairline hover:bg-paper-tint w-1/2 py-2.5 transition-colors"
+              onClick={retornar}>
+              Cancelar
+            </button>
             <button
               type='submit'
-              className='rounded bg-sky-200 hover:bg-sky-300 text-sky-900 w-1/2 py-2 flex justify-center'
+              className="rounded-full bg-accent hover:bg-accent-dark text-white font-medium w-1/2 py-2.5 flex justify-center transition-colors"
               disabled={isLoading}>
-
-              {isLoading ?
-                <PacmanLoader color="#0c4a6e" size={24} /> :
-                <span> Cadastrar</span>
-              }
+              {isLoading ? <PacmanLoader color="#ffffff" size={16} /> : <span>Cadastrar</span>}
             </button>
-
           </div>
         </form>
+
+        <p className="text-center text-sm text-ink-muted mt-8">
+          Já tem uma conta?{' '}
+          <Link to="/" className="text-accent-dark font-medium hover:underline">
+            Entrar
+          </Link>
+        </p>
       </div>
-    </>
+    </div>
   );
 }
 

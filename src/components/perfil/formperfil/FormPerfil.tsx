@@ -6,10 +6,11 @@ import { atualizar } from "../../../services/Service";
 import { PropagateLoader } from "react-spinners";
 import { ToastAlerta } from "../../../utils/ToastAlerta";
 
+const inputClass = "w-full border border-hairline rounded-md px-3.5 py-2.5 text-ink bg-paper placeholder:text-ink-faint outline-none focus:border-accent transition-colors"
+
 function FormPerfil() {
   const navigate = useNavigate();
 
-  // Correção da inicialização aqui:
   const [usuario, setUsuario] = useState<UsuarioLogin>({
     id: 0,
     nome: "",
@@ -67,7 +68,7 @@ function FormPerfil() {
             headers: { 'Authorization': token }
           });
           handleAtualizarUsuario(usuarioComToken);
-          ToastAlerta('Perfil updated com sucesso!', 'sucesso');
+          ToastAlerta('Perfil atualizado com sucesso!', 'sucesso');
           setTimeout(() => { retornar(); }, 500);
         } catch (error: any) {
           if (error.toString().includes('401')) {
@@ -108,96 +109,94 @@ function FormPerfil() {
   }
 
   return (
-    <div className="container flex flex-col items-center justify-center mx-auto min-h-[80vh]">
-      <h1 className="text-4xl text-center my-8 font-bold text-slate-800">Editar Perfil</h1>
+    <div className="flex justify-center px-4 py-16 md:py-20">
+      <div className="w-full max-w-sm">
 
-      <form className="w-full max-w-md flex flex-col gap-4 bg-pink-50/50 p-6 rounded-2xl border border-pink-100 shadow-sm"
-        onSubmit={atualizarPerfil} >
+        <h1 className="font-serif text-3xl font-semibold text-ink text-center mb-8">
+          Editar perfil
+        </h1>
 
-        <div className="flex flex-col gap-1">
-          <label htmlFor="nome" className="text-sm font-semibold text-slate-600">Nome</label>
-          <input
-            type="text"
-            placeholder="Seu nome"
-            name='nome'
-            className="border border-pink-200 rounded-xl p-2.5 bg-white focus:outline-none focus:ring-2 focus:ring-pink-300 transition text-slate-700"
-            value={usuario.nome}
-            onChange={atualizarEstado}
-          />
-        </div>
+        <form className="flex flex-col gap-4" onSubmit={atualizarPerfil}>
 
-        <div className="flex flex-col gap-1">
-          <label htmlFor="usuario" className="text-sm font-semibold text-slate-600">Email / Usuário</label>
-          <input
-            type="text"
-            placeholder="Seu email"
-            name='usuario'
-            className="border border-pink-200 rounded-xl p-2.5 bg-white focus:outline-none focus:ring-2 focus:ring-pink-300 transition text-slate-700"
-            value={usuario.usuario}
-            onChange={atualizarEstado}
-          />
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <label htmlFor="foto" className="text-sm font-semibold text-slate-600">URL da Foto</label>
-          <input
-            type="text"
-            placeholder="URL da sua foto"
-            name='foto'
-            className="border border-pink-200 rounded-xl p-2.5 bg-white focus:outline-none focus:ring-2 focus:ring-pink-300 transition text-slate-700"
-            value={usuario.foto}
-            onChange={atualizarEstado}
-          />
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <label htmlFor="senha" className="text-sm font-semibold text-slate-600">Nova Senha (opcional)</label>
-          <input
-            type="password"
-            placeholder="Deixe em branco para manter a atual"
-            name='senha'
-            className="border border-pink-200 rounded-xl p-2.5 bg-white focus:outline-none focus:ring-2 focus:ring-pink-300 transition text-slate-700"
-            value={usuario.senha}
-            onChange={atualizarEstado}
-          />
-        </div>
-
-        {usuario.senha.length > 0 && (
-          <div className="flex flex-col gap-1">
-            <label htmlFor="confirmarSenha" className="text-sm font-semibold text-slate-600">Confirmar Nova Senha</label>
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="nome" className="text-sm font-medium text-ink-soft">Nome</label>
             <input
-              type="password"
-              placeholder="Confirme a nova senha"
-              name='confirmarSenha'
-              className="border border-pink-200 rounded-xl p-2.5 bg-white focus:outline-none focus:ring-2 focus:ring-pink-300 transition text-slate-700"
-              value={confirmarSenha}
-              onChange={handleConfirmarSenha}
+              type="text"
+              placeholder="Seu nome"
+              name='nome'
+              className={inputClass}
+              value={usuario.nome}
+              onChange={atualizarEstado}
             />
           </div>
-        )}
 
-        <div className="flex gap-4 justify-center mt-4">
-          <button
-            className="rounded-xl text-slate-700 bg-slate-200 
-                        hover:bg-slate-300 w-1/2 py-2.5 flex justify-center font-medium transition cursor-pointer"
-            type="button"
-            onClick={retornar}>
-            Cancelar
-          </button>
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="usuario" className="text-sm font-medium text-ink-soft">E-mail</label>
+            <input
+              type="text"
+              placeholder="Seu e-mail"
+              name='usuario'
+              className={inputClass}
+              value={usuario.usuario}
+              onChange={atualizarEstado}
+            />
+          </div>
 
-          <button
-            className="rounded-xl text-white bg-pink-400 
-                        hover:bg-pink-500 w-1/2 py-2.5 flex justify-center font-medium transition shadow-sm cursor-pointer"
-            type="submit">
-            {isLoading ? (
-              <PropagateLoader color="#ffffff" size={10} className="py-1" />
-            ) : (
-              <span>Atualizar</span>
-            )}
-          </button>
-        </div>
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="foto" className="text-sm font-medium text-ink-soft">URL da foto</label>
+            <input
+              type="text"
+              placeholder="https://..."
+              name='foto'
+              className={inputClass}
+              value={usuario.foto}
+              onChange={atualizarEstado}
+            />
+          </div>
 
-      </form>
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="senha" className="text-sm font-medium text-ink-soft">Nova senha (opcional)</label>
+            <input
+              type="password"
+              placeholder="Deixe em branco para manter a atual"
+              name='senha'
+              className={inputClass}
+              value={usuario.senha}
+              onChange={atualizarEstado}
+            />
+          </div>
+
+          {usuario.senha.length > 0 && (
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="confirmarSenha" className="text-sm font-medium text-ink-soft">Confirmar nova senha</label>
+              <input
+                type="password"
+                placeholder="Confirme a nova senha"
+                name='confirmarSenha'
+                className={inputClass}
+                value={confirmarSenha}
+                onChange={handleConfirmarSenha}
+              />
+            </div>
+          )}
+
+          <div className="flex gap-3 mt-2">
+            <button
+              className="rounded-full text-ink-soft bg-paper border border-hairline hover:bg-paper-tint w-1/2 py-2.5 transition-colors"
+              type="button"
+              onClick={retornar}>
+              Cancelar
+            </button>
+
+            <button
+              className="rounded-full text-white bg-accent hover:bg-accent-dark w-1/2 py-2.5 flex justify-center font-medium transition-colors"
+              type="submit">
+              {isLoading ? <PropagateLoader color="#ffffff" size={8} /> : <span>Salvar</span>}
+            </button>
+          </div>
+
+        </form>
+      </div>
     </div>
   );
 }

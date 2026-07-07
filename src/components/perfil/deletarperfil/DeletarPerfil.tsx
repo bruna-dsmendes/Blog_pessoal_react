@@ -16,7 +16,6 @@ function DeletarPerfil() {
 
   useEffect(() => {
     if (token === '') {
-      // ToastAlerta('Você precisa estar logado', 'info')
       navigate('/')
     }
   }, [token])
@@ -53,38 +52,31 @@ function DeletarPerfil() {
   }
 
   return (
-    <div className='container w-1/3 mx-auto'>
-      <h1 className='text-4xl text-center my-4'>Deletar Perfil</h1>
-      <p className='text-center font-semibold mb-4'>
-        Você tem certeza de que deseja deletar sua conta? Esta ação é irreversível!
-      </p>
-      <div className='border border-red-200 flex flex-col rounded-2xl overflow-hidden justify-between'>
-        <header
-          className='py-2 px-6 bg-red-100 text-red-900 font-bold text-2xl border-b border-red-200'>
-          Dados da Conta
-        </header>
-        <div className='p-8 text-lg bg-white h-full text-sky-800'>
-          <p><strong>Nome:</strong> {usuario.nome}</p>
-          <p><strong>Email:</strong> {usuario.usuario}</p>
+    <div className="flex justify-center px-4 py-16 md:py-20">
+      <div className="w-full max-w-sm">
+
+        <h1 className="font-serif text-3xl font-semibold text-ink text-center mb-3">
+          Excluir conta
+        </h1>
+        <p className="text-center text-ink-muted mb-8">
+          Essa ação é permanente. Tem certeza de que deseja excluir sua conta?
+        </p>
+
+        <div className="border border-hairline rounded-md p-5 mb-6">
+          <p className="text-ink font-medium">{usuario.nome}</p>
+          <p className="text-ink-muted text-sm mt-0.5">{usuario.usuario}</p>
         </div>
-        <div className="flex">
+
+        <div className="flex gap-3">
           <button
-            className='text-sky-900 bg-sky-200 hover:bg-sky-300 w-full py-2'
+            className="rounded-full text-ink-soft bg-paper border border-hairline hover:bg-paper-tint w-1/2 py-2.5 transition-colors"
             onClick={retornar}>
             Cancelar
           </button>
           <button
-            className='w-full text-white bg-red-600 hover:bg-red-700 flex items-center justify-center'
+            className="rounded-full text-white bg-red-500 hover:bg-red-600 w-1/2 py-2.5 flex justify-center font-medium transition-colors"
             onClick={deletarPerfil}>
-
-            {isLoading ?
-              <PacmanLoader
-                color="#ffffff"
-                size={24}
-              /> :
-              <span>Deletar Conta</span>
-            }
-
+            {isLoading ? <PacmanLoader color="#ffffff" size={16} /> : <span>Excluir conta</span>}
           </button>
         </div>
       </div>

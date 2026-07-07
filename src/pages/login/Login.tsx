@@ -21,6 +21,11 @@ const schemaLogin = yup.object({
 
 type FormData = yup.InferType<typeof schemaLogin>;
 
+const inputClass = (hasError: boolean) =>
+  `w-full border rounded-md px-3.5 py-2.5 text-ink bg-paper placeholder:text-ink-faint
+   outline-none transition-colors
+   ${hasError ? 'border-red-400 focus:border-red-400' : 'border-hairline focus:border-accent'}`
+
 function Login() {
   const navigate = useNavigate();
   const { usuario, handleLogin, isLoading } = useContext(AuthContext);
@@ -44,75 +49,72 @@ function Login() {
   }
 
   return (
-    <>
-      <div className="grid grid-cols-1 lg:grid-cols-2 h-auto lg:h-[calc(100vh-180px)] place-items-center font-bold px-4 py-8 lg:py-0">
+    <div className="flex justify-center px-4 py-16 md:py-24">
+      <div className="w-full max-w-sm">
 
-        <form
-          className="flex justify-center items-center flex-col w-full lg:w-1/2 gap-4"
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <h2 className="text-sky-900 text-5xl mb-2">Entrar</h2>
+        <div className="flex items-center gap-2 justify-center mb-8">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            className="w-6 h-6 text-accent stroke-[2.5]"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5" />
+          </svg>
+          <span className="font-serif text-xl font-semibold tracking-tight text-ink">
+            Simetria<span className="text-accent">.Dev</span>
+          </span>
+        </div>
 
-          <div className="flex flex-col w-full gap-1">
-            <label htmlFor="usuario">Usuário</label>
+        <h1 className="font-serif text-3xl font-semibold text-ink text-center mb-8">
+          Bem-vindo de volta
+        </h1>
+
+        <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="usuario" className="text-sm font-medium text-ink-soft">E-mail</label>
             <input
               type="text"
               id="usuario"
-              placeholder="Ex: bruna@email.com"
+              placeholder="voce@email.com"
               {...register("usuario")}
-              className={`border-2 rounded p-2 outline-none transition-all
-                ${errors.usuario ? 'border-red-500 focus:border-red-500' : 'border-sky-200 focus:border-[#5ea2df]'}`}
+              className={inputClass(!!errors.usuario)}
             />
             {errors.usuario && (
-              <span className="text-xs font-bold text-red-500 font-mono mt-0.5">
-                {errors.usuario.message}
-              </span>
+              <span className="text-xs text-red-500">{errors.usuario.message}</span>
             )}
           </div>
 
-          <div className="flex flex-col w-full gap-1">
-            <label htmlFor="senha">Senha</label>
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="senha" className="text-sm font-medium text-ink-soft">Senha</label>
             <input
               type="password"
               id="senha"
               placeholder="Digite sua senha"
               {...register("senha")}
-              className={`border-2 rounded p-2 outline-none transition-all
-                ${errors.senha ? 'border-red-500 focus:border-red-500' : 'border-sky-200 focus:border-[#5ea2df]'}`}
+              className={inputClass(!!errors.senha)}
             />
             {errors.senha && (
-              <span className="text-xs font-bold text-red-500 font-mono mt-0.5">
-                {errors.senha.message}
-              </span>
+              <span className="text-xs text-red-500">{errors.senha.message}</span>
             )}
           </div>
 
-          {/* Botão de Entrar */}
           <button
             type='submit'
-            className="rounded bg-sky-200 flex justify-center hover:bg-sky-300 text-sky-900 w-1/2 py-2 mt-2 transition-colors">
-            {isLoading ? (
-              <RiseLoader color="#0c4a6e" size={14} />
-            ) : (
-              <span>Entrar</span>
-            )}
+            className="rounded-full bg-accent hover:bg-accent-dark text-white font-medium py-2.5 mt-2 flex justify-center transition-colors">
+            {isLoading ? <RiseLoader color="#ffffff" size={8} /> : <span>Entrar</span>}
           </button>
-
-          <hr className="border-sky-200 w-full my-2" />
-
-          <p className="font-normal text-slate-600">
-            Ainda não tem uma conta?{' '}
-            <Link to="/cadastro" className="text-sky-700 font-bold hover:underline">
-              Cadastre-se
-            </Link>
-          </p>
         </form>
 
-        <div
-          className="hidden lg:block w-full h-full bg-[url('https://ik.imagekit.io/bruumendes/Gemini_Generated_Image_vy21m7vy21m7vy21.png')] bg-no-repeat bg-cover bg-center"
-        ></div>
-      </div >
-    </>
+        <p className="text-center text-sm text-ink-muted mt-8">
+          Ainda não tem uma conta?{' '}
+          <Link to="/cadastro" className="text-accent-dark font-medium hover:underline">
+            Cadastre-se
+          </Link>
+        </p>
+      </div>
+    </div>
   );
 }
 

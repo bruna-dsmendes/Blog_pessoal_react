@@ -34,7 +34,6 @@ function DeletarPostagem() {
 
   useEffect(() => {
     if (token === '') {
-      // ToastAlerta('Você precisa estar logado', "Info")
       navigate('/')
     }
   }, [token])
@@ -74,40 +73,31 @@ function DeletarPostagem() {
   }
 
   return (
-    <div className='container w-1/3 mx-auto'>
-      <h1 className='text-4xl text-center my-4'>Deletar Postagem</h1>
+    <div className="flex justify-center px-4 py-16 md:py-20">
+      <div className="w-full max-w-sm">
 
-      <p className='text-center font-semibold mb-4'>
-        Você tem certeza de que deseja apagar a postagem a seguir?
-      </p>
+        <h1 className="font-serif text-3xl font-semibold text-ink text-center mb-3">
+          Excluir postagem
+        </h1>
+        <p className="text-center text-ink-muted mb-8">
+          Essa ação é permanente. Tem certeza de que deseja excluir esta postagem?
+        </p>
 
-      <div className='border border-sky-200 flex flex-col rounded-2xl overflow-hidden justify-between'>
-        <header
-          className='py-2 px-6 bg-sky-100 text-sky-900 font-bold text-2xl'>
-          Postagem
-        </header>
-        <div className="p-4">
-          <p className='text-xl h-full'>{postagem.titulo}</p>
-          <p>{postagem.texto}</p>
+        <div className="border border-hairline rounded-md p-5 mb-6">
+          <p className="font-serif text-lg font-semibold text-ink leading-snug">{postagem.titulo}</p>
+          <p className="text-ink-muted text-sm mt-1.5 line-clamp-2">{postagem.texto}</p>
         </div>
-        <div className="flex">
+
+        <div className="flex gap-3">
           <button
-            className='text-red-900 bg-red-200 hover:bg-red-300 w-full py-2'
+            className="rounded-full text-ink-soft bg-paper border border-hairline hover:bg-paper-tint w-1/2 py-2.5 transition-colors"
             onClick={retornar}>
-            Não
+            Cancelar
           </button>
           <button
-            className='w-full text-sky-900 bg-sky-200 hover:bg-sky-300 flex items-center justify-center'
+            className="rounded-full text-white bg-red-500 hover:bg-red-600 w-1/2 py-2.5 flex items-center justify-center font-medium transition-colors"
             onClick={deletarPostagem}>
-
-            {isLoading ?
-              <PacmanLoader
-                color="#0c4a6e"
-                size={24}
-              /> :
-              <span>Sim</span>
-            }
-
+            {isLoading ? <PacmanLoader color="#ffffff" size={16} /> : <span>Excluir</span>}
           </button>
         </div>
       </div>
