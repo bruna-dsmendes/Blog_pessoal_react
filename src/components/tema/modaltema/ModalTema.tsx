@@ -1,16 +1,16 @@
 import Popup from 'reactjs-popup';
 
 import 'reactjs-popup/dist/index.css';
-import FormPostagem from '../formpostagem/FormPostagem';
+import FormTema from '../formtema/FormTema';
 
-function ModalPostagem({ onSuccess }: { onSuccess: () => void }) {
+function ModalTema({ onSuccess }: { onSuccess: () => void }) {
   return (
     <>
       <Popup
         trigger={
           <button
             className='border border-sky-400 text-sky-600 rounded px-4 py-2 hover:bg-sky-100 hover:text-sky-800 transition-colors'>
-            Nova Postagem
+            Cadastrar Tema
           </button>
         }
         modal
@@ -19,10 +19,10 @@ function ModalPostagem({ onSuccess }: { onSuccess: () => void }) {
           paddingBottom: '2rem'
         }}
       >
-        <FormPostagem onSuccess={onSuccess} />
+        <FormTema onSuccess={onSuccess} />
       </Popup>
     </>
   );
 }
 
-export default ModalPostagem;
+export default ModalTema;

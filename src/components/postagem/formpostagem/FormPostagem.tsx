@@ -6,7 +6,8 @@ import type Tema from "../../../models/Tema";
 import { buscar, atualizar, cadastrar } from "../../../services/Service";
 import { PropagateLoader } from "react-spinners";
 import { ToastAlerta } from "../../../utils/ToastAlerta";
-function FormPostagem() {
+
+function FormPostagem({ onSuccess }: { onSuccess: () => void }) {
 
   const navigate = useNavigate();
 
@@ -122,7 +123,8 @@ function FormPostagem() {
           },
         })
 
-        ToastAlerta('Postagem cadastrada com sucesso', 'sucesso');
+        ToastAlerta('Postagem cadastrada com sucesso', 'sucesso')
+        onSuccess?.()
 
       } catch (error: any) {
         if (error.toString().includes('401')) {
@@ -135,7 +137,7 @@ function FormPostagem() {
     }
 
     setIsLoading(false)
-    retornar()
+    if (!onSuccess) retornar()
   }
 
   const carregandoTema = tema.descricao === '';
