@@ -74,13 +74,21 @@ function FormPostagem({ onSuccess }: { onSuccess: () => void }) {
   }, [id])
 
   useEffect(() => {
-    setPostagem({
-      ...postagem,
-      tema: tema,
-    })
+    if (tema.id !== 0) {
+      setPostagem((postagemAtual) => ({
+        ...postagemAtual,
+        tema: tema,
+      }))
+    }
   }, [tema])
 
-  function atualizarEstado(e: ChangeEvent<HTMLInputElement>) {
+  useEffect(() => {
+    if (postagem.tema) {
+      setTema(postagem.tema)
+    }
+  }, [postagem.id])
+
+  function atualizarEstado(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     setPostagem({
       ...postagem,
       [e.target.name]: e.target.value,
@@ -140,71 +148,74 @@ function FormPostagem({ onSuccess }: { onSuccess: () => void }) {
     if (!onSuccess) retornar()
   }
 
-  const carregandoTema = tema.descricao === '';
-
+  const carregandoTema = !tema.descricao;
 
   return (
-    <div className="container flex flex-col mx-auto items-center">
-      <h1 className="text-4xl text-center my-8">
-        {id !== undefined ? 'Editar Postagem' : 'Cadastrar Postagem'}
-      </h1>
+    <div className="flex justify-center px-4 py-10">
+      <div className="w-full max-w-2xl">
 
-      <form className="flex flex-col w-1/2 gap-4"
-        onSubmit={gerarNovaPostagem}>
-        <div className="flex flex-col gap-2">
-          <label htmlFor="titulo" className="text-slate-700">Título da Postagem</label>
+        <h1 className="font-serif text-2xl font-semibold text-ink mb-6">
+          {id !== undefined ? 'Editar postagem' : 'Nova postagem'}
+        </h1>
+
+        <form className="flex flex-col" onSubmit={gerarNovaPostagem}>
+
           <input
             type="text"
-            placeholder="Titulo"
+            placeholder="Título"
             name="titulo"
             required
-            className="border-2 border-sky-300 rounded p-2 focus:outline-none focus:border-sky-500"
-            value={postagem.titulo}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
+            className="w-full font-serif text-3xl md:text-4xl font-bold text-ink placeholder:text-ink-faint
+                       outline-none border-none bg-transparent py-2"
+            value={postagem.titulo || ''}
+            onChange={atualizarEstado}
           />
-        </div>
 
-        <div className="flex flex-col gap-2">
-          <label htmlFor="texto" className="text-slate-700">Texto da Postagem</label>
-          <input
-            type="text"
-            placeholder="Texto"
+          <textarea
+            placeholder="Conte sua história..."
             name="texto"
             required
-            className="border-2 border-sky-300 rounded p-2 focus:outline-none focus:border-sky-500"
-            onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
+            rows={16}
+            className="w-full font-serif text-lg text-ink-soft placeholder:text-ink-faint
+                       outline-none border-none bg-transparent leading-relaxed
+                       py-3 mt-1 resize-y min-h-[420px]"
+            value={postagem.texto || ''}
+            onChange={atualizarEstado}
           />
-        </div>
 
-        <div className="flex flex-col gap-2">
-          <p className="text-slate-700">Tema da Postagem</p>
-          <select name="tema" id="tema" className='border-2 p-2 border-sky-300 rounded focus:outline-none focus:border-sky-500'
-            onChange={(e) => buscarTemaPorId(e.currentTarget.value)} >
-            <option value="" selected disabled>Selecione um Tema</option>
+          <div className="flex flex-wrap items-center justify-between gap-4 mt-4 pt-5 border-t border-hairline">
 
-            {temas.map((tema) => (
-              <>
-                <option value={tema.id} >{tema.descricao}</option>
-              </>
-            ))}
+            <div className="flex items-center gap-2">
+              <label htmlFor="tema" className="text-sm text-ink-muted">Tema</label>
+              <select
+                name="tema"
+                id="tema"
+                className="border border-hairline rounded-full px-3.5 py-1.5 text-sm text-ink bg-paper
+                           outline-none focus:border-accent transition-colors"
+                value={tema.id || ''}
+                onChange={(e) => buscarTemaPorId(e.currentTarget.value)}
+              >
+                <option value="" disabled>Selecione</option>
+                {temas.map((tema) => (
+                  <option key={tema.id} value={tema.id}>{tema.descricao}</option>
+                ))}
+              </select>
+            </div>
 
-          </select>
-        </div>
-
-        <button
-          type='submit'
-          className='rounded disabled:bg-slate-200 bg-sky-400 hover:bg-sky-600 text-white font-bold w-1/2 mx-auto py-2 flex justify-center transition-colors'
-          disabled={carregandoTema}
-        >
-          {isLoading ?
-            <PropagateLoader
-              color="#ffffff"
-              size={24}
-            /> :
-            <span> {id === undefined ? 'Cadastrar' : 'Atualizar'} </span>
-          }
-        </button>
-      </form>
+            <button
+              type='submit'
+              className="rounded-full disabled:bg-ink-faint disabled:cursor-not-allowed bg-accent hover:bg-accent-dark
+                         text-white font-medium px-6 py-2 flex justify-center items-center transition-colors"
+              disabled={carregandoTema}
+            >
+              {isLoading ?
+                <PropagateLoader color="#ffffff" size={8} /> :
+                <span>{id === undefined ? 'Publicar' : 'Salvar'}</span>
+              }
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
