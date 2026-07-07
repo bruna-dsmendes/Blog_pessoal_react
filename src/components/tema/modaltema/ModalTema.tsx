@@ -9,14 +9,16 @@ function ModalTema({ onSuccess }: { onSuccess: () => void }) {
       <Popup
         trigger={
           <button
-            className='border border-sky-400 text-sky-600 rounded px-4 py-2 hover:bg-sky-100 hover:text-sky-800 transition-colors'>
-            Cadastrar Tema
+            className='rounded-full bg-accent hover:bg-accent-dark text-white text-sm font-medium px-4 py-1.5 transition-colors'>
+            Novo tema
           </button>
         }
         modal
         contentStyle={{
-          borderRadius: '1rem',
-          paddingBottom: '2rem'
+          borderRadius: '0.75rem',
+          padding: '0',
+          width: '90vw',
+          maxWidth: '420px'
         }}
       >
         <FormTema onSuccess={onSuccess} />

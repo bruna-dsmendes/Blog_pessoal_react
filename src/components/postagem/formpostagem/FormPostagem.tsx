@@ -88,14 +88,26 @@ function FormPostagem({ onSuccess }: { onSuccess: () => void }) {
     }
   }, [postagem.id])
 
-  function atualizarEstado(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
-    setPostagem({
-      ...postagem,
-      [e.target.name]: e.target.value,
-      tema: tema,
-      usuario: usuario,
-    });
+  useEffect(() => {
+    if (id === undefined && usuario.id !== 0) {
+      setPostagem((postagemAtual) => ({
+        ...postagemAtual,
+        usuario: {
+          id: usuario.id,
+          nome: usuario.nome,
+          usuario: usuario.usuario,
+          senha: usuario.senha,
+          foto: usuario.foto,
+        },
+      }))
+    }
+  }, [id, usuario.id])
 
+  function atualizarEstado(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+    setPostagem((postagemAtual) => ({
+      ...postagemAtual,
+      [e.target.name]: e.target.value,
+    }));
   }
 
   function retornar() {
@@ -106,9 +118,21 @@ function FormPostagem({ onSuccess }: { onSuccess: () => void }) {
     e.preventDefault()
     setIsLoading(true)
 
+    const payload = {
+      ...postagem,
+      tema: postagem.tema ? { id: postagem.tema.id, descricao: postagem.tema.descricao } : null,
+      usuario: postagem.usuario ? {
+        id: postagem.usuario.id,
+        nome: postagem.usuario.nome,
+        usuario: postagem.usuario.usuario,
+        senha: postagem.usuario.senha,
+        foto: postagem.usuario.foto,
+      } : null,
+    }
+
     if (id !== undefined) {
       try {
-        await atualizar(`/postagens`, postagem, setPostagem, {
+        await atualizar(`/postagens`, payload, setPostagem, {
           headers: {
             Authorization: token,
           },
@@ -125,7 +149,7 @@ function FormPostagem({ onSuccess }: { onSuccess: () => void }) {
       }
     } else {
       try {
-        await cadastrar(`/postagens`, postagem, setPostagem, {
+        await cadastrar(`/postagens`, payload, setPostagem, {
           headers: {
             Authorization: token,
           },

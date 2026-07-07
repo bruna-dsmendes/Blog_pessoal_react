@@ -45,31 +45,36 @@ function ListaTemas() {
   }
 
   return (
-    <>
-      {isLoading && (<RiseLoader color="pink-300" size={32}
-      />
-      )}
-      <div className="flex justify-center w-full my-4">
-        <div className="container flex flex-col">
+    <div className="flex justify-center w-full">
+      <div className="container max-w-2xl px-8">
 
-          <div className="flex justify-end mb-4">
-            <ModalTema onSuccess={buscarTemas} />
+        <div className="flex justify-between items-center py-6 border-b border-hairline">
+          <h2 className="font-serif text-lg font-semibold text-ink">Temas</h2>
+          <ModalTema onSuccess={buscarTemas} />
+        </div>
+
+        {isLoading && (
+          <div className="flex justify-center py-16">
+            <RiseLoader color="#5ea2df" size={12} />
           </div>
+        )}
 
-          {(!isLoading && temas.length === 0) && (
-            <span className="text-3xl text-center my-8">Nenhum tema foi encontrado!</span>
-          )}
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-            {temas.map((tema) => (
-              <CardTema key={tema.id} tema={tema} />
-            ))}
-
+        {(!isLoading && temas.length === 0) && (
+          <div className="text-center py-20">
+            <span className="font-serif text-2xl text-ink-muted">
+              Nenhum tema foi encontrado.
+            </span>
+            <p className="text-ink-faint mt-2">Que tal criar o primeiro?</p>
           </div>
+        )}
+
+        <div className="flex flex-col">
+          {temas.map((tema) => (
+            <CardTema key={tema.id} tema={tema} />
+          ))}
         </div>
       </div>
-    </>
+    </div>
   )
 }
 

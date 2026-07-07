@@ -33,7 +33,6 @@ function FormTema({ onSuccess }: { onSuccess: () => void }) {
 
   useEffect(() => {
     if (token === '') {
-      // ToastAlerta('Você precisa estar logado!', 'info')
       navigate('/')
     }
   }, [token])
@@ -95,42 +94,40 @@ function FormTema({ onSuccess }: { onSuccess: () => void }) {
 
 
   return (
-    <div className="container flex flex-col items-center justify-center mx-auto">
-      <h1 className="text-4xl text-center my-8">
-        {id === undefined ? 'Cadastrar Tema' : 'Editar Tema'}
-      </h1>
+    <div className="flex justify-center px-6 py-8">
+      <div className="w-full">
 
-      <form className="w-1/2 flex flex-col gap-4"
-        onSubmit={gerarNovoTema} >
+        <h1 className="font-serif text-2xl font-semibold text-ink text-center mb-6">
+          {id === undefined ? 'Novo tema' : 'Editar tema'}
+        </h1>
 
-        <div className="flex flex-col gap-2">
-          <label htmlFor="descricao">Descrição do Tema</label>
-          <input
-            type="text"
-            placeholder="Descreva aqui seu tema"
-            name='descricao'
-            className="border-2 border-sky-200 rounded p-2"
-            value={tema.descricao}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
-          />
-        </div>
+        <form className="flex flex-col gap-4" onSubmit={gerarNovoTema}>
 
-        <button
-          className="rounded text-sky-900 bg-sky-200 
-119	                    hover:bg-sky-300 w-1/2 py-2 mx-auto flex justify-center"
-          type="submit">
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="descricao" className="text-sm font-medium text-ink-soft">Descrição do tema</label>
+            <input
+              type="text"
+              id="descricao"
+              placeholder="Ex: React, Carreira, Backend..."
+              name='descricao'
+              className="w-full border border-hairline rounded-md px-3.5 py-2.5 text-ink bg-paper
+                         placeholder:text-ink-faint outline-none focus:border-accent transition-colors"
+              value={tema.descricao || ''}
+              onChange={atualizarEstado}
+            />
+          </div>
 
-          {isLoading ?
-            <PropagateLoader
-              color="#0c4a6e"
-              size={24}
-            /> :
-            <span>{id === undefined ?
-              'Cadastrar' : 'Atualizar'} </span>
-          }
-        </button>
+          <button
+            className="rounded-full text-white bg-accent hover:bg-accent-dark w-full py-2.5 mt-2 flex justify-center font-medium transition-colors"
+            type="submit">
+            {isLoading ?
+              <PropagateLoader color="#ffffff" size={8} /> :
+              <span>{id === undefined ? 'Criar tema' : 'Salvar'}</span>
+            }
+          </button>
 
-      </form>
+        </form>
+      </div>
     </div>
   );
 }
