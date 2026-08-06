@@ -1,20 +1,15 @@
-import { useContext, useEffect } from "react"
-import { useNavigate, Link } from "react-router-dom"
+import { useContext } from "react"
+import { Link } from "react-router-dom"
 
 import { AuthContext } from "../../contexts/AuthContext"
 //import { ToastAlerta } from "../../utils/ToastAlerta"
 
 function Perfil() {
-  const navigate = useNavigate()
 
+  // A RotaProtegida já garante que existe sessão antes de chegar aqui.
   const { usuario } = useContext(AuthContext)
 
-  useEffect(() => {
-    if (usuario.token === "") {
-      // ToastAlerta("Você precisa estar logado", 'info')
-      navigate("/")
-    }
-  }, [usuario.token])
+  if (!usuario) return null
 
   return (
     <div className="flex justify-center mx-4">
@@ -27,7 +22,7 @@ function Perfil() {
 
         <img
           className="rounded-full w-56 mx-auto mt-[-8rem]border-8 border-white relative z-10"
-          src={usuario.foto}
+          src={usuario.foto ?? undefined}
           alt={`Foto de perfil de ${usuario.nome}`}
         />
 
@@ -40,19 +35,11 @@ function Perfil() {
 
           <div className="flex gap-4 mt-8">
             <Link
-              to="/editarperfil"
+              to="/perfil/editar"
               className="rounded bg-sky-200 hover:bg-sky-300 text-sky-900 
                          py-2 px-6 font-bold transition-colors"
             >
               Editar Perfil
-            </Link>
-
-            <Link
-              to="/deletarperfil"
-              className="rounded bg-red-200 hover:bg-red-300 text-red-900 
-                         py-2 px-6 font-bold transition-colors"
-            >
-              Deletar Perfil
             </Link>
           </div>
         </div>
