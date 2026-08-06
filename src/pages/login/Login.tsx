@@ -5,7 +5,6 @@ import { RiseLoader } from "react-spinners";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import type UsuarioLogin from "../../models/UsuarioLogin";
 
 const schemaLogin = yup.object({
   usuario: yup
@@ -22,7 +21,7 @@ type FormData = yup.InferType<typeof schemaLogin>;
 
 function Login() {
   const navigate = useNavigate();
-  const { usuario, handleLogin, isLoading } = useContext(AuthContext);
+  const { estaAutenticado, handleLogin, isLoading } = useContext(AuthContext);
 
   const {
     register,
@@ -33,13 +32,13 @@ function Login() {
   });
 
   useEffect(() => {
-    if (usuario.token !== "") {
-      navigate('/home');
+    if (estaAutenticado) {
+      navigate('/');
     }
-  }, [usuario, navigate]);
+  }, [estaAutenticado, navigate]);
 
   function onSubmit(data: FormData) {
-    handleLogin(data as UsuarioLogin);
+    handleLogin(data);
   }
 
   return (

@@ -1,8 +1,9 @@
 import { useState, type ChangeEvent, type FormEvent } from "react"
 import { useNavigate } from "react-router-dom"
 import { PacmanLoader } from "react-spinners";
-import type Usuario from "../../models/Usuario"
-import { cadastrarUsuario } from "../../services/Service"
+import type { UsuarioRequest } from "../../models/Usuario"
+import { cadastrar } from "../../services/usuarioService"
+import { mensagemDeErro } from "../../services/api"
 import { ToastAlerta } from "../../utils/ToastAlerta";
 
 function Cadastro() {
@@ -13,8 +14,7 @@ function Cadastro() {
 
   const [confirmarSenha, setConfirmarSenha] = useState<string>("")
 
-  const [usuario, setUsuario] = useState<Usuario>({
-    id: 0,
+  const [usuario, setUsuario] = useState<UsuarioRequest>({
     nome: '',
     usuario: '',
     senha: '',
@@ -22,7 +22,7 @@ function Cadastro() {
   })
 
   function retornar() {
-    navigate('/')
+    navigate('/login')
   }
 
   function atualizarEstado(e: ChangeEvent<HTMLInputElement>) {
@@ -43,15 +43,15 @@ function Cadastro() {
       setIsLoading(true)
 
       try {
-        await cadastrarUsuario(`/usuarios/cadastrar`, usuario, setUsuario)
+        await cadastrar(usuario)
         ToastAlerta('Usuário cadastrado com sucesso!', 'sucesso')
 
         setTimeout(() => {
-          navigate('/')
+          navigate('/login')
         }, 500)
 
       } catch (error) {
-        ToastAlerta('Erro ao cadastrar o usuário!', 'erro')
+        ToastAlerta(mensagemDeErro(error, 'Erro ao cadastrar o usuário!'), 'erro')
         setIsLoading(false)
       }
     } else {
@@ -107,7 +107,7 @@ function Cadastro() {
               name="foto"
               placeholder="Foto"
               className="border-2 border-sky-200 rounded p-2"
-              value={usuario.foto}
+              value={usuario.foto ?? ''}
               onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
             />
           </div>
