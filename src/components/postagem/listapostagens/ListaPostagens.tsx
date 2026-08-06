@@ -1,88 +1,89 @@
-import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { RiseLoader } from "react-spinners";
-import { AuthContext } from "../../../contexts/AuthContext";
-import type Postagem from "../../../models/Postagem";
-import { buscar } from "../../../services/Service";
-import CardPostagem from "../cardpostagem/CardPostagem";
-import ModalPostagem from "../modalpostagem/ModalPostagem";
-//import { ToastAlerta } from "../../../utils/ToastAlerta";
+import { useCallback, useEffect, useState } from 'react'
+import { RiseLoader } from 'react-spinners'
+import type Pagina from '../../../models/Pagina'
+import type { PostagemResumo } from '../../../models/Postagem'
+import { feed, porTag } from '../../../services/postagemService'
+import { mensagemDeErro } from '../../../services/api'
+import { ToastAlerta } from '../../../utils/ToastAlerta'
+import CardPostagem from '../cardpostagem/CardPostagem'
 
-function ListaPostagens() {
+interface ListaPostagensProps {
+  /** Quando presente, lista só as postagens dessa tag. */
+  slugTag?: string
+}
 
-  const navigate = useNavigate();
+function ListaPostagens({ slugTag }: ListaPostagensProps) {
 
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [pagina, setPagina] = useState<Pagina<PostagemResumo> | null>(null)
+  const [numero, setNumero] = useState(0)
+  const [isLoading, setIsLoading] = useState(true)
 
-  const [postagens, setPostagens] = useState<Postagem[]>([])
+  const carregar = useCallback(async () => {
+    setIsLoading(true)
 
-  const { usuario, handleLogout } = useContext(AuthContext)
-  const token = usuario.token
-
-  useEffect(() => {
-    if (token === '') {
-      // ToastAlerta('Você precisa estar logado!', 'info')
-      navigate('/')
-    }
-  }, [token])
-
-  useEffect(() => {
-    buscarPostagens()
-  }, [])
-
-  async function buscarPostagens() {
     try {
-
-      setIsLoading(true)
-
-      await buscar('/postagens', setPostagens, {
-        headers: { Authorization: token }
-      })
-    } catch (error: any) {
-      if (error.toString().includes('401')) {
-        handleLogout()
-      }
+      setPagina(slugTag ? await porTag(slugTag, numero) : await feed(numero))
+    } catch (erro) {
+      ToastAlerta(mensagemDeErro(erro, 'Não foi possível carregar as postagens'), 'erro')
     } finally {
       setIsLoading(false)
     }
+  }, [slugTag, numero])
+
+  useEffect(() => { carregar() }, [carregar])
+
+  // Trocar de tag precisa voltar para a primeira página.
+  useEffect(() => { setNumero(0) }, [slugTag])
+
+  if (isLoading && !pagina) {
+    return (
+      <div className="flex justify-center w-full my-16">
+        <RiseLoader color="#5ea2df" size={24} />
+      </div>
+    )
   }
 
-  return (
-    <>
+  const postagens = pagina?.conteudo ?? []
 
-      {isLoading && (
-        <div className="flex justify-center w-full my-8">
-          <RiseLoader
-            color="#312e81"
-            size={32}
-          />
+  return (
+    <section className="container mx-auto px-8 my-8">
+      {postagens.length === 0 ? (
+        <p className="my-16 text-xl text-center text-slate-500">
+          Nenhuma postagem publicada por aqui ainda.
+        </p>
+      ) : (
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {postagens.map((postagem) => (
+            <CardPostagem key={postagem.id} postagem={postagem} />
+          ))}
         </div>
       )}
 
-      <div className="flex justify-center w-full my-4">
-        <div className="container flex flex-col">
+      {pagina && pagina.totalPaginas > 1 && (
+        <div className="flex items-center justify-center gap-4 mt-10">
+          <button
+            onClick={() => setNumero((n) => n - 1)}
+            disabled={pagina.primeira || isLoading}
+            className="px-4 py-2 text-sm font-semibold transition-colors rounded text-sky-800 bg-sky-100 hover:bg-sky-200 disabled:opacity-40"
+          >
+            Anterior
+          </button>
 
-          <div className="flex justify-end mb-4">
-            <ModalPostagem onSuccess={buscarPostagens} />
-          </div>
+          <span className="text-sm text-slate-500">
+            Página {pagina.pagina + 1} de {pagina.totalPaginas}
+          </span>
 
-          {(!isLoading && postagens.length === 0) && (
-            <span className="text-3xl text-center my-8">
-              Nenhuma Postagem foi encontrada!
-            </span>
-          )}
-
-          <div className="grid grid-cols-1 md:grid-cols-2 
-                                    lg:grid-cols-3 gap-8">
-            {
-              postagens.map((postagem) => (
-                <CardPostagem key={postagem.id} postagem={postagem} />
-              ))
-            }
-          </div>
+          <button
+            onClick={() => setNumero((n) => n + 1)}
+            disabled={pagina.ultima || isLoading}
+            className="px-4 py-2 text-sm font-semibold transition-colors rounded text-sky-800 bg-sky-100 hover:bg-sky-200 disabled:opacity-40"
+          >
+            Próxima
+          </button>
         </div>
-      </div>
-    </>
+      )}
+    </section>
   )
 }
-export default ListaPostagens;
+
+export default ListaPostagens

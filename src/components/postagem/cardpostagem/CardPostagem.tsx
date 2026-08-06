@@ -1,48 +1,70 @@
 import { Link } from 'react-router-dom'
-import type Postagem from '../../../models/Postagem'
+import type { PostagemResumo } from '../../../models/Postagem'
 
-interface CardPostagensProps {
-  postagem: Postagem
+const ROTULO_STATUS: Record<string, string> = {
+  RASCUNHO: 'Rascunho',
+  ARQUIVADO: 'Arquivado',
 }
 
-function CardPostagem({ postagem }: CardPostagensProps) {
-  return (
-    <div className='border-sky-100 border 
-            flex flex-col rounded overflow-hidden justify-between'>
+function formatarData(data: string | null) {
+  if (!data) return null
 
-      <div>
-        <div className="flex w-full bg-sky-50 py-2 px-4 items-center gap-4 border-b border-sky-100">
-          <img
-            src={postagem.usuario?.foto}
-            className='h-12 rounded-full'
-            alt={postagem.usuario?.nome} />
-          <h3 className='text-lg font-bold text-center uppercase text-sky-900'>
-            {postagem.usuario?.nome}
-          </h3>
+  return new Intl.DateTimeFormat('pt-BR', { dateStyle: 'medium' }).format(new Date(data))
+}
+
+function CardPostagem({ postagem }: { postagem: PostagemResumo }) {
+
+  const data = formatarData(postagem.publicadoEm ?? postagem.atualizadoEm)
+  const rotulo = ROTULO_STATUS[postagem.status]
+
+  return (
+    <article className="flex flex-col justify-between overflow-hidden transition-shadow bg-white border rounded-2xl border-sky-100 hover:shadow-md">
+
+      <Link to={`/artigo/${postagem.slug}`} className="flex flex-col">
+        {postagem.capaUrl && (
+          <img src={postagem.capaUrl} alt="" className="object-cover w-full h-40" />
+        )}
+
+        <div className="flex flex-col gap-2 p-5">
+          {rotulo && (
+            <span className="self-start px-2 py-0.5 text-xs font-bold uppercase rounded-full bg-amber-100 text-amber-800">
+              {rotulo}
+            </span>
+          )}
+
+          <h3 className="text-lg font-bold leading-snug text-slate-800">{postagem.titulo}</h3>
+
+          {postagem.subtitulo && (
+            <p className="text-sm text-slate-500 line-clamp-2">{postagem.subtitulo}</p>
+          )}
         </div>
-        <div className='p-4 '>
-          <h4 className='text-lg font-semibold uppercase'>{postagem.titulo}</h4>
-          <p>{postagem.texto}</p>
-          <p>Tema: {postagem.tema?.descricao}</p>
-          <p>Data: {new Intl.DateTimeFormat("pt-BR", {
-            dateStyle: 'full',
-            timeStyle: 'medium',
-          }).format(new Date(postagem.data))}</p>
+      </Link>
+
+      <div className="flex flex-col gap-3 px-5 pb-5">
+        {postagem.tags.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            {postagem.tags.map((tag) => (
+              <Link
+                key={tag.id}
+                to={`/tag/${tag.slug}`}
+                className="px-2 py-0.5 text-xs font-medium rounded-full bg-sky-50 text-sky-700 hover:bg-sky-100"
+              >
+                {tag.nome}
+              </Link>
+            ))}
+          </div>
+        )}
+
+        <div className="flex items-center gap-2 text-xs text-slate-400">
+          {postagem.autor?.foto && (
+            <img src={postagem.autor.foto} alt="" className="object-cover w-6 h-6 rounded-full" />
+          )}
+          <span className="font-semibold text-slate-600">{postagem.autor?.nome ?? 'Autor removido'}</span>
+          {data && <span>· {data}</span>}
+          <span>· {postagem.tempoLeitura} min de leitura</span>
         </div>
       </div>
-      <div className="flex">
-        <Link to={`/editarpostagem/${postagem.id}`}
-          className='w-full text-sky-900 bg-sky-100 
-17	                    hover:bg-sky-200 flex items-center justify-center py-2'>
-          <button>Editar</button>
-        </Link>
-        <Link to={`/deletarpostagem/${postagem.id}`}
-          className='text-sky-900 bg-red-50 
-19	                    hover:bg-red-100 w-full flex items-center justify-center'>
-          <button>Deletar</button>
-        </Link>
-      </div>
-    </div>
+    </article>
   )
 }
 
