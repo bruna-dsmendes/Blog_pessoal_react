@@ -9,10 +9,7 @@ export default interface Usuario {
   linkLinkedin: string | null
 }
 
-/**
- * Perfil de autor, aberto ao público.
- * Não tem e-mail: numa página aberta, endereço vira alvo de coleta.
- */
+/** Página aberta, por isso sem e-mail. */
 export interface PerfilPublico {
   username: string
   nome: string
@@ -49,10 +46,7 @@ export interface LoginRequest {
   senha: string
 }
 
-/*
- * A sessão vive no cookie httpOnly. O campo token existe na resposta por
- * compatibilidade, mas o front não guarda esse valor em lugar nenhum.
- */
+/** A sessão vive no cookie. O front não guarda o token em lugar nenhum. */
 export interface LoginResponse {
   id: number
   nome: string

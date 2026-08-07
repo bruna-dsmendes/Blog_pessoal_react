@@ -3,12 +3,7 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { RiseLoader } from 'react-spinners'
 import { AuthContext } from '../contexts/AuthContext'
 
-/**
- * Espera a checagem de sessão terminar antes de decidir.
- *
- * Sem essa espera, quem recarrega uma página protegida seria jogado no login
- * por uma fração de segundo, antes de /usuarios/me responder.
- */
+/** Espera /usuarios/me responder: sem isso, um F5 pisca a tela de login. */
 function RotaProtegida() {
 
   const { estaAutenticado, carregandoSessao } = useContext(AuthContext)

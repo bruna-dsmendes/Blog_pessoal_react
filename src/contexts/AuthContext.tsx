@@ -60,7 +60,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       await logar(dados)
 
-      // O cookie já veio na resposta do login; agora buscamos o perfil por ele.
       setUsuario(await meuPerfil())
 
       ToastAlerta('Bem-vinda de volta!', 'sucesso')

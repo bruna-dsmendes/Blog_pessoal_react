@@ -42,7 +42,11 @@ function BotaoReacao({ postagemId, totalInicial, reagiInicial }: BotaoReacaoProp
       return
     }
 
-    // Atualiza a tela antes da resposta chegar e reverte se falhar
+    /*
+     * Atualiza a tela antes da resposta chegar e reverte se falhar.
+     * Curtida é ação pequena e frequente: esperar a rede para pintar o coração
+     * deixa a interação com cara de travada.
+     */
     const anterior = { total, reagi }
 
     setReagi(!reagi)
@@ -54,6 +58,7 @@ function BotaoReacao({ postagemId, totalInicial, reagiInicial }: BotaoReacaoProp
         ? await desfazerReacao(postagemId)
         : await reagir(postagemId)
 
+      // A resposta do servidor é a verdade, inclusive se outra pessoa curtiu junto.
       setTotal(resposta.total)
       setReagi(resposta.reagi)
 
@@ -73,10 +78,11 @@ function BotaoReacao({ postagemId, totalInicial, reagiInicial }: BotaoReacaoProp
       disabled={enviando}
       aria-pressed={reagi}
       aria-label={reagi ? 'Remover curtida' : 'Curtir artigo'}
-      className={`group flex items-center gap-2 px-4 py-2 rounded-full border transition-colors disabled:opacity-60 ${reagi
+      className={`group flex items-center gap-2 px-4 py-2 rounded-full border transition-colors disabled:opacity-60 ${
+        reagi
           ? 'border-rose-200 bg-rose-50 text-rose-600'
           : 'border-slate-200 text-slate-500 hover:border-rose-200 hover:text-rose-500'
-        }`}
+      }`}
     >
       <Coracao preenchido={reagi} />
       <span className="text-sm font-bold tabular-nums">{total}</span>

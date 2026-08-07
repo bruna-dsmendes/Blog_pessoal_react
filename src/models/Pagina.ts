@@ -1,4 +1,3 @@
-/** Envelope de paginação devolvido pela API em toda listagem. */
 export default interface Pagina<T> {
   conteudo: T[]
   pagina: number

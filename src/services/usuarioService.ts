@@ -7,21 +7,17 @@ export async function cadastrar(dados: UsuarioRequest): Promise<Usuario> {
   return data
 }
 
-/** O cookie de sessão vem no cabeçalho Set-Cookie desta resposta. */
 export async function logar(dados: LoginRequest): Promise<LoginResponse> {
   const { data } = await api.post<LoginResponse>('/usuarios/logar', dados)
   return data
 }
 
-/*
- * Precisa passar pelo servidor: o cookie é httpOnly, então o JavaScript não
- * consegue apagá-lo. Só quem o escreveu pode sobrescrevê-lo com validade zero.
- */
+/** Precisa passar pelo servidor: o JavaScript não apaga cookie httpOnly. */
 export async function deslogar(): Promise<void> {
   await api.post('/usuarios/deslogar')
 }
 
-/** Fonte da verdade sobre estar logado. Responde 401 quando não há sessão. */
+/** Fonte da verdade sobre a sessão. Responde 401 quando não há uma. */
 export async function meuPerfil(): Promise<Usuario> {
   const { data } = await api.get<Usuario>('/usuarios/me')
   return data
@@ -32,7 +28,6 @@ export async function atualizarPerfil(dados: UsuarioAtualizarRequest): Promise<U
   return data
 }
 
-/** Página de autor. Não exige sessão. */
 export async function perfilPublico(username: string): Promise<PerfilPublico> {
   const { data } = await api.get<PerfilPublico>(`/usuarios/perfil/${username}`)
   return data

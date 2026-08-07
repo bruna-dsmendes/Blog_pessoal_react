@@ -1,12 +1,9 @@
 import axios, { AxiosError } from 'axios'
 
 /*
- * baseURL relativa é o que faz o cookie funcionar.
- *
- * As requisições saem para o mesmo domínio da página (/api/...), e o rewrite
- * da Vercel em produção, ou o proxy do Vite em desenvolvimento, encaminha para
- * o Render. Se o front chamasse a URL do Render direto, o cookie seria de
- * terceiro e o Safari o descartaria.
+ * A baseURL é relativa de propósito: chamar a URL do backend direto faria o
+ * cookie de sessão virar cookie de terceiro, que o Safari descarta. O rewrite
+ * da Vercel e o proxy do Vite encaminham /api para o backend.
  */
 export const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL ?? '/api',
@@ -19,7 +16,7 @@ type Ouvinte = () => void
 
 let aoPerderSessao: Ouvinte | null = null
 
-/** O AuthContext se registra aqui. Evita import circular entre os dois. */
+/** O AuthContext se registra aqui, o que evita import circular. */
 export function registrarPerdaDeSessao(ouvinte: Ouvinte) {
   aoPerderSessao = ouvinte
 }
@@ -49,7 +46,6 @@ interface ErroResposta {
   campos?: Record<string, string>
 }
 
-/** Extrai a mensagem que a API mandou, com um texto de reserva. */
 export function mensagemDeErro(erro: unknown, reserva = 'Não foi possível concluir a operação'): string {
   if (erro instanceof AxiosError) {
     const dados = erro.response?.data as ErroResposta | undefined

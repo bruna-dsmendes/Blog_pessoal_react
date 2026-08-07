@@ -27,7 +27,7 @@ function App() {
 
           <main className="flex-1">
             <Routes>
-              {/* Públicas: o blog existe para ser lido sem login. */}
+              {/* Públicas */}
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/cadastro" element={<Cadastro />} />
@@ -35,7 +35,7 @@ function App() {
               <Route path="/tag/:slug" element={<PorTag />} />
               <Route path="/autor/:username" element={<Autor />} />
 
-              {/* Exigem sessão. */}
+              {/* Exigem sessão */}
               <Route element={<RotaProtegida />}>
                 <Route path="/minhas-postagens" element={<MinhasPostagens />} />
                 <Route path="/postagens/nova" element={<FormPostagem />} />

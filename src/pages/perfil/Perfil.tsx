@@ -7,12 +7,7 @@ import { AuthContext } from '../../contexts/AuthContext'
 import type { PerfilPublico } from '../../models/Usuario'
 import { perfilPublico } from '../../services/usuarioService'
 
-/**
- * Mesmo cabeçalho da página pública, com as ações do dono por cima.
- *
- * Ver a própria página do jeito que os outros veem é mais útil do que uma
- * tela de dados cadastrais, e evita manter dois layouts que se parecem.
- */
+/** Mesmo cabeçalho da página pública, com as ações do dono por cima. */
 function Perfil() {
 
   // A RotaProtegida já garante que existe sessão antes de chegar aqui.

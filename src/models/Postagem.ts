@@ -5,12 +5,10 @@ export type StatusPostagem = 'RASCUNHO' | 'PUBLICADO' | 'ARQUIVADO'
 export interface Autor {
   id: number
   nome: string
-  /** Usado para montar o link do perfil público, sem requisição extra. */
   username: string
   foto: string | null
 }
 
-/** Resposta completa, usada na leitura de um artigo. */
 export default interface Postagem {
   id: number
   titulo: string
@@ -26,7 +24,6 @@ export default interface Postagem {
   autor: Autor | null
   tags: Tag[]
   reacoes: number
-  /** Se quem está pedindo já curtiu. Serve ao estado visual do botão. */
   reagi: boolean
 }
 
@@ -35,7 +32,7 @@ export interface Reacao {
   reagi: boolean
 }
 
-/** Resposta do feed. Não traz o markdown nem contagem de reações. */
+/** Sem o markdown: 50 mil caracteres por item inviabilizam a listagem. */
 export interface PostagemResumo {
   id: number
   titulo: string

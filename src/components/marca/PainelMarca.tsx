@@ -1,14 +1,8 @@
-/**
- * Painel lateral das telas de entrada.
- *
- * Feito só com CSS, sem imagem externa. Além de não depender de um link que
- * pode cair, carrega instantâneo e não impõe um rosto a quem visita.
- */
+/** Só CSS, sem imagem externa: carrega instantâneo e não depende de um link. */
 function PainelMarca() {
   return (
     <aside className="relative hidden w-full h-full overflow-hidden lg:flex lg:flex-col lg:justify-center bg-slate-900">
 
-      {/* Malha de fundo: apenas duas repetições de gradiente, sem imagem. */}
       <div
         aria-hidden
         className="absolute inset-0 opacity-[0.07]"
@@ -19,7 +13,6 @@ function PainelMarca() {
         }}
       />
 
-      {/* Brilho difuso atrás do conteúdo. */}
       <div
         aria-hidden
         className="absolute rounded-full -top-32 -right-24 w-96 h-96 bg-sky-500/20 blur-3xl"
@@ -48,7 +41,6 @@ function PainelMarca() {
           entende, e que ajuda quem vem depois.
         </p>
 
-        {/* Amostra do editor. Decorativa, mas mostra o que a plataforma faz. */}
         <div className="p-4 mt-10 border rounded-xl border-white/10 bg-white/5">
           <div className="flex gap-1.5 mb-3">
             <span className="w-2.5 h-2.5 rounded-full bg-white/20" />
