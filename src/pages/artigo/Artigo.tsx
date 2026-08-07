@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { RiseLoader } from 'react-spinners'
+import BotaoReacao from '../../components/postagem/reacao/BotaoReacao'
 import { AuthContext } from '../../contexts/AuthContext'
 import type Postagem from '../../models/Postagem'
 import { porSlug } from '../../services/postagemService'
@@ -93,8 +94,19 @@ function Artigo() {
         <ReactMarkdown remarkPlugins={[remarkGfm]}>{postagem.conteudo}</ReactMarkdown>
       </div>
 
+      <div className="flex items-center gap-4 pt-8 mt-12 border-t border-sky-100">
+        <BotaoReacao
+          postagemId={postagem.id}
+          totalInicial={postagem.reacoes}
+          reagiInicial={postagem.reagi}
+        />
+        <span className="text-sm text-slate-400">
+          {postagem.reacoes === 1 ? 'pessoa curtiu' : 'pessoas curtiram'}
+        </span>
+      </div>
+
       {postagem.tags.length > 0 && (
-        <div className="flex flex-wrap gap-2 pt-8 mt-12 border-t border-sky-100">
+        <div className="flex flex-wrap gap-2 mt-8">
           {postagem.tags.map((tag) => (
             <Link
               key={tag.id}

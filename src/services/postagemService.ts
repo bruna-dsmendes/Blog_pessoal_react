@@ -1,7 +1,7 @@
 import { api } from './api'
 import type Pagina from '../models/Pagina'
 import type Postagem from '../models/Postagem'
-import type { PostagemRequest, PostagemResumo, StatusPostagem } from '../models/Postagem'
+import type { PostagemRequest, PostagemResumo, Reacao, StatusPostagem } from '../models/Postagem'
 
 const TAMANHO_PADRAO = 9
 
@@ -79,5 +79,16 @@ export async function arquivar(id: number | string): Promise<Postagem> {
 
 export async function voltarParaRascunho(id: number | string): Promise<Postagem> {
   const { data } = await api.patch<Postagem>(`/postagens/${id}/rascunho`)
+  return data
+}
+
+/** Idempotente: chamar de novo não duplica a curtida. */
+export async function reagir(id: number | string): Promise<Reacao> {
+  const { data } = await api.post<Reacao>(`/postagens/${id}/reagir`)
+  return data
+}
+
+export async function desfazerReacao(id: number | string): Promise<Reacao> {
+  const { data } = await api.delete<Reacao>(`/postagens/${id}/reagir`)
   return data
 }

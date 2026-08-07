@@ -25,9 +25,17 @@ export default interface Postagem {
   publicadoEm: string | null
   autor: Autor | null
   tags: Tag[]
+  reacoes: number
+  /** Se quem está pedindo já curtiu. Serve ao estado visual do botão. */
+  reagi: boolean
 }
 
-/** Resposta do feed. Não traz o markdown. */
+export interface Reacao {
+  total: number
+  reagi: boolean
+}
+
+/** Resposta do feed. Não traz o markdown nem contagem de reações. */
 export interface PostagemResumo {
   id: number
   titulo: string
