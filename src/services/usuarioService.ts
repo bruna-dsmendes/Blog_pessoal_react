@@ -32,3 +32,24 @@ export async function perfilPublico(username: string): Promise<PerfilPublico> {
   const { data } = await api.get<PerfilPublico>(`/usuarios/perfil/${username}`)
   return data
 }
+
+/** Portabilidade: baixa um JSON com cadastro, artigos e reações. */
+export async function baixarMeusDados(): Promise<void> {
+  const { data } = await api.get('/usuarios/me/dados')
+
+  const arquivo = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
+  const endereco = URL.createObjectURL(arquivo)
+
+  const link = document.createElement('a')
+  link.href = endereco
+  link.download = `meus-dados-${new Date().toISOString().slice(0, 10)}.json`
+  link.click()
+
+  URL.revokeObjectURL(endereco)
+}
+
+export type DestinoDosArtigos = 'ANONIMIZAR' | 'EXCLUIR'
+
+export async function excluirConta(senha: string, destinoDosArtigos: DestinoDosArtigos): Promise<void> {
+  await api.post('/usuarios/excluir-conta', { senha, destinoDosArtigos })
+}

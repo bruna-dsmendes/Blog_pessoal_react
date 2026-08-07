@@ -7,6 +7,7 @@ import { ROTULO_DO_LINK, TIPOS_DE_LINK } from '../../../models/tiposDeLink'
 import { atualizarPerfil } from '../../../services/usuarioService'
 import { mensagemDeErro } from '../../../services/api'
 import { ToastAlerta } from '../../../utils/ToastAlerta'
+import ZonaDaConta from '../conta/ZonaDaConta'
 
 const LIMITE_DA_BIO = 280
 
@@ -86,6 +87,7 @@ function FormPerfil() {
   const rotulo = 'text-sm font-semibold text-slate-700'
 
   return (
+    <>
     <div className="max-w-xl px-6 mx-auto my-10">
       <h1 className="mb-8 text-3xl font-black text-slate-800">Editar perfil</h1>
 
@@ -206,6 +208,9 @@ function FormPerfil() {
         </div>
       </form>
     </div>
+
+    <ZonaDaConta />
+    </>
   )
 }
 
