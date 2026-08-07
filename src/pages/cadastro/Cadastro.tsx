@@ -151,6 +151,17 @@ function Cadastro() {
             {isLoading ? <PropagateLoader color="#ffffff" size={12} /> : <span>Criar conta</span>}
           </button>
 
+          <p className="text-xs leading-relaxed text-center text-slate-500">
+            Ao criar a conta você concorda com os{' '}
+            <Link to="/termos" className="font-semibold text-sky-600 hover:underline">
+              Termos de Uso
+            </Link>{' '}
+            e a{' '}
+            <Link to="/privacidade" className="font-semibold text-sky-600 hover:underline">
+              Política de Privacidade
+            </Link>.
+          </p>
+
           <p className="text-sm text-center text-slate-500">
             Já tem conta?{' '}
             <Link to="/login" className="font-bold text-sky-600 hover:underline">

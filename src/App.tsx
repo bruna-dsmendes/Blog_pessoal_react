@@ -11,6 +11,8 @@ import Cadastro from './pages/cadastro/Cadastro'
 import Home from './pages/home/Home'
 import EsqueciASenha from './pages/senha/EsqueciASenha'
 import Login from './pages/login/Login'
+import PoliticaDePrivacidade from './pages/legal/PoliticaDePrivacidade'
+import TermosDeUso from './pages/legal/TermosDeUso'
 import RedefinirSenha from './pages/senha/RedefinirSenha'
 import MinhasPostagens from './pages/minhaspostagens/MinhasPostagens'
 import Perfil from './pages/perfil/Perfil'
@@ -38,6 +40,8 @@ function App() {
               <Route path="/artigo/:slug" element={<Artigo />} />
               <Route path="/tag/:slug" element={<PorTag />} />
               <Route path="/autor/:username" element={<Autor />} />
+              <Route path="/privacidade" element={<PoliticaDePrivacidade />} />
+              <Route path="/termos" element={<TermosDeUso />} />
 
               {/* Exigem sessão */}
               <Route element={<RotaProtegida />}>

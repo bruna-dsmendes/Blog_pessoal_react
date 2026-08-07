@@ -59,6 +59,12 @@ function Footer() {
         </nav>
 
         <div>
+          <Titulo>Legal</Titulo>
+          <ul className="flex flex-col gap-2 mb-8">
+            <li><Link to="/privacidade" className={item}>Política de Privacidade</Link></li>
+            <li><Link to="/termos" className={item}>Termos de Uso</Link></li>
+          </ul>
+
           <Titulo>Projeto</Titulo>
           <ul className="flex flex-col gap-2">
             <li>
