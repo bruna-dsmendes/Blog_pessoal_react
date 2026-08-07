@@ -5,6 +5,8 @@ export type StatusPostagem = 'RASCUNHO' | 'PUBLICADO' | 'ARQUIVADO'
 export interface Autor {
   id: number
   nome: string
+  /** Usado para montar o link do perfil público, sem requisição extra. */
+  username: string
   foto: string | null
 }
 

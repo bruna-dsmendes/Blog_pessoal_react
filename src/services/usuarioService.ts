@@ -1,6 +1,6 @@
 import { api } from './api'
 import type Usuario from '../models/Usuario'
-import type { LoginRequest, LoginResponse, UsuarioAtualizarRequest, UsuarioRequest } from '../models/Usuario'
+import type { LoginRequest, LoginResponse, PerfilPublico, UsuarioAtualizarRequest, UsuarioRequest } from '../models/Usuario'
 
 export async function cadastrar(dados: UsuarioRequest): Promise<Usuario> {
   const { data } = await api.post<Usuario>('/usuarios/cadastrar', dados)
@@ -29,5 +29,11 @@ export async function meuPerfil(): Promise<Usuario> {
 
 export async function atualizarPerfil(dados: UsuarioAtualizarRequest): Promise<Usuario> {
   const { data } = await api.put<Usuario>('/usuarios/atualizar', dados)
+  return data
+}
+
+/** Página de autor. Não exige sessão. */
+export async function perfilPublico(username: string): Promise<PerfilPublico> {
+  const { data } = await api.get<PerfilPublico>(`/usuarios/perfil/${username}`)
   return data
 }

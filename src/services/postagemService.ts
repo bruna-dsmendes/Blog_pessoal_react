@@ -19,6 +19,14 @@ export async function porTag(slugTag: string, pagina = 0, tamanho = TAMANHO_PADR
   return data
 }
 
+/** Artigos publicados de um autor. Sem rascunhos, sem sessão. */
+export async function porAutor(username: string, pagina = 0, tamanho = TAMANHO_PADRAO): Promise<Pagina<PostagemResumo>> {
+  const { data } = await api.get<Pagina<PostagemResumo>>(`/postagens/autor/${username}`, {
+    params: { page: pagina, size: tamanho },
+  })
+  return data
+}
+
 export async function buscar(termo: string, pagina = 0, tamanho = TAMANHO_PADRAO): Promise<Pagina<PostagemResumo>> {
   const { data } = await api.get<Pagina<PostagemResumo>>('/postagens/buscar', {
     params: { termo, page: pagina, size: tamanho },
