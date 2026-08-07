@@ -62,7 +62,11 @@ function Artigo() {
         {postagem.autor?.foto && (
           <img src={postagem.autor.foto} alt="" className="object-cover rounded-full w-9 h-9" />
         )}
-        <span className="font-semibold text-slate-600">{postagem.autor?.nome}</span>
+        {postagem.autor && (
+          <Link to={`/autor/${postagem.autor.username}`} className="font-semibold text-slate-600 hover:text-sky-600">
+            {postagem.autor.nome}
+          </Link>
+        )}
         <span>· {data}</span>
         <span>· {postagem.tempoLeitura} min de leitura</span>
 

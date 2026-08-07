@@ -59,7 +59,13 @@ function CardPostagem({ postagem }: { postagem: PostagemResumo }) {
           {postagem.autor?.foto && (
             <img src={postagem.autor.foto} alt="" className="object-cover w-6 h-6 rounded-full" />
           )}
-          <span className="font-semibold text-slate-600">{postagem.autor?.nome ?? 'Autor removido'}</span>
+          {postagem.autor ? (
+            <Link to={`/autor/${postagem.autor.username}`} className="font-semibold text-slate-600 hover:text-sky-600">
+              {postagem.autor.nome}
+            </Link>
+          ) : (
+            <span className="font-semibold text-slate-600">Autor removido</span>
+          )}
           {data && <span>· {data}</span>}
           <span>· {postagem.tempoLeitura} min de leitura</span>
         </div>

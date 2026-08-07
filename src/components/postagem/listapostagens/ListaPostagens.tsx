@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { RiseLoader } from 'react-spinners'
 import type Pagina from '../../../models/Pagina'
 import type { PostagemResumo } from '../../../models/Postagem'
-import { feed, porTag } from '../../../services/postagemService'
+import { feed, porAutor, porTag } from '../../../services/postagemService'
 import { mensagemDeErro } from '../../../services/api'
 import { ToastAlerta } from '../../../utils/ToastAlerta'
 import CardPostagem from '../cardpostagem/CardPostagem'
@@ -10,9 +10,11 @@ import CardPostagem from '../cardpostagem/CardPostagem'
 interface ListaPostagensProps {
   /** Quando presente, lista só as postagens dessa tag. */
   slugTag?: string
+  /** Quando presente, lista só os artigos publicados desse autor. */
+  username?: string
 }
 
-function ListaPostagens({ slugTag }: ListaPostagensProps) {
+function ListaPostagens({ slugTag, username }: ListaPostagensProps) {
 
   const [pagina, setPagina] = useState<Pagina<PostagemResumo> | null>(null)
   const [numero, setNumero] = useState(0)
@@ -22,18 +24,24 @@ function ListaPostagens({ slugTag }: ListaPostagensProps) {
     setIsLoading(true)
 
     try {
-      setPagina(slugTag ? await porTag(slugTag, numero) : await feed(numero))
+      if (username) {
+        setPagina(await porAutor(username, numero))
+      } else if (slugTag) {
+        setPagina(await porTag(slugTag, numero))
+      } else {
+        setPagina(await feed(numero))
+      }
     } catch (erro) {
       ToastAlerta(mensagemDeErro(erro, 'Não foi possível carregar as postagens'), 'erro')
     } finally {
       setIsLoading(false)
     }
-  }, [slugTag, numero])
+  }, [slugTag, username, numero])
 
   useEffect(() => { carregar() }, [carregar])
 
-  // Trocar de tag precisa voltar para a primeira página.
-  useEffect(() => { setNumero(0) }, [slugTag])
+  // Trocar de filtro precisa voltar para a primeira página.
+  useEffect(() => { setNumero(0) }, [slugTag, username])
 
   if (isLoading && !pagina) {
     return (
@@ -48,7 +56,7 @@ function ListaPostagens({ slugTag }: ListaPostagensProps) {
   return (
     <section className="container mx-auto px-8 my-8">
       {postagens.length === 0 ? (
-        <p className="my-16 text-xl text-center text-slate-500">
+        <p className="my-16 text-center text-slate-500">
           Nenhuma postagem publicada por aqui ainda.
         </p>
       ) : (
