@@ -96,6 +96,12 @@ function Login() {
             {isLoading ? <RiseLoader color="#ffffff" size={10} /> : <span>Entrar</span>}
           </button>
 
+          <p className="text-sm text-center">
+            <Link to="/esqueci-a-senha" className="text-slate-500 hover:text-slate-700">
+              Esqueci minha senha
+            </Link>
+          </p>
+
           <p className="text-sm text-center text-slate-500">
             Ainda não tem uma conta?{' '}
             <Link to="/cadastro" className="font-bold text-sky-600 hover:underline">

@@ -9,7 +9,9 @@ import Artigo from './pages/artigo/Artigo'
 import Autor from './pages/autor/Autor'
 import Cadastro from './pages/cadastro/Cadastro'
 import Home from './pages/home/Home'
+import EsqueciASenha from './pages/senha/EsqueciASenha'
 import Login from './pages/login/Login'
+import RedefinirSenha from './pages/senha/RedefinirSenha'
 import MinhasPostagens from './pages/minhaspostagens/MinhasPostagens'
 import Perfil from './pages/perfil/Perfil'
 import PorTag from './pages/portag/PorTag'
@@ -31,6 +33,8 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/cadastro" element={<Cadastro />} />
+              <Route path="/esqueci-a-senha" element={<EsqueciASenha />} />
+              <Route path="/redefinir-senha" element={<RedefinirSenha />} />
               <Route path="/artigo/:slug" element={<Artigo />} />
               <Route path="/tag/:slug" element={<PorTag />} />
               <Route path="/autor/:username" element={<Autor />} />

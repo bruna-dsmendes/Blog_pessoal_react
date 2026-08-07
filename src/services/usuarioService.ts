@@ -53,3 +53,12 @@ export type DestinoDosArtigos = 'ANONIMIZAR' | 'EXCLUIR'
 export async function excluirConta(senha: string, destinoDosArtigos: DestinoDosArtigos): Promise<void> {
   await api.post('/usuarios/excluir-conta', { senha, destinoDosArtigos })
 }
+
+/** Responde igual exista ou não a conta, para não revelar cadastro. */
+export async function esqueciASenha(usuario: string): Promise<void> {
+  await api.post('/usuarios/esqueci-a-senha', { usuario })
+}
+
+export async function redefinirSenha(token: string, novaSenha: string): Promise<void> {
+  await api.post('/usuarios/redefinir-senha', { token, novaSenha })
+}
