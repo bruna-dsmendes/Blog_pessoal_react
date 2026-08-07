@@ -6,6 +6,7 @@ import FormPerfil from './components/perfil/formperfil/FormPerfil'
 import FormPostagem from './components/postagem/formpostagem/FormPostagem'
 import { AuthProvider } from './contexts/AuthContext'
 import Artigo from './pages/artigo/Artigo'
+import Autor from './pages/autor/Autor'
 import Cadastro from './pages/cadastro/Cadastro'
 import Home from './pages/home/Home'
 import Login from './pages/login/Login'
@@ -32,6 +33,7 @@ function App() {
               <Route path="/cadastro" element={<Cadastro />} />
               <Route path="/artigo/:slug" element={<Artigo />} />
               <Route path="/tag/:slug" element={<PorTag />} />
+              <Route path="/autor/:username" element={<Autor />} />
 
               {/* Exigem sessão. */}
               <Route element={<RotaProtegida />}>

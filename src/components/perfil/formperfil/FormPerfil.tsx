@@ -7,14 +7,20 @@ import { atualizarPerfil } from '../../../services/usuarioService'
 import { mensagemDeErro } from '../../../services/api'
 import { ToastAlerta } from '../../../utils/ToastAlerta'
 
+const LIMITE_DA_BIO = 280
+
 function FormPerfil() {
 
   const navigate = useNavigate()
   const { usuario, handleAtualizarUsuario } = useContext(AuthContext)
 
   const [nome, setNome] = useState('')
+  const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [foto, setFoto] = useState('')
+  const [bio, setBio] = useState('')
+  const [linkGithub, setLinkGithub] = useState('')
+  const [linkLinkedin, setLinkLinkedin] = useState('')
   const [senha, setSenha] = useState('')
   const [confirmarSenha, setConfirmarSenha] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -23,8 +29,12 @@ function FormPerfil() {
     if (!usuario) return
 
     setNome(usuario.nome)
+    setUsername(usuario.username)
     setEmail(usuario.usuario)
     setFoto(usuario.foto ?? '')
+    setBio(usuario.bio ?? '')
+    setLinkGithub(usuario.linkGithub ?? '')
+    setLinkLinkedin(usuario.linkLinkedin ?? '')
   }, [usuario])
 
   async function salvar(e: FormEvent<HTMLFormElement>) {
@@ -43,8 +53,12 @@ function FormPerfil() {
      */
     const dados: UsuarioAtualizarRequest = {
       nome,
+      username,
       usuario: email,
       foto: foto.trim() || null,
+      bio: bio.trim() || null,
+      linkGithub: linkGithub.trim() || null,
+      linkLinkedin: linkLinkedin.trim() || null,
       ...(senha !== '' ? { senha } : {}),
     }
 
@@ -63,7 +77,7 @@ function FormPerfil() {
   const rotulo = 'text-sm font-semibold text-slate-700'
 
   return (
-    <div className="max-w-lg px-6 mx-auto my-10">
+    <div className="max-w-xl px-6 mx-auto my-10">
       <h1 className="mb-8 text-3xl font-black text-slate-800">Editar perfil</h1>
 
       <form className="flex flex-col gap-5" onSubmit={salvar}>
@@ -75,15 +89,49 @@ function FormPerfil() {
         </div>
 
         <div className="flex flex-col gap-1">
-          <label htmlFor="email" className={rotulo}>E-mail</label>
-          <input id="email" type="email" className={campo} required
-            value={email} onChange={(e) => setEmail(e.target.value)} />
+          <label htmlFor="username" className={rotulo}>Nome de usuário</label>
+          <input
+            id="username" className={campo} required minLength={3} maxLength={30}
+            pattern="[a-z0-9\-]+"
+            title="Use apenas letras minúsculas, números e hífen"
+            value={username}
+            onChange={(e) => setUsername(e.target.value.toLowerCase())}
+          />
+          <span className="text-xs text-slate-400">
+            Seu perfil fica em /autor/{username || 'seu-nome'}
+          </span>
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <label htmlFor="bio" className={rotulo}>Bio</label>
+          <textarea
+            id="bio" className={`${campo} min-h-24 resize-none`} maxLength={LIMITE_DA_BIO}
+            placeholder="Em transição para desenvolvimento, escrevendo sobre Java e o que aprendo pelo caminho."
+            value={bio} onChange={(e) => setBio(e.target.value)}
+          />
+          <span className={`text-xs self-end ${bio.length > LIMITE_DA_BIO - 20 ? 'text-amber-600' : 'text-slate-400'}`}>
+            {bio.length} / {LIMITE_DA_BIO}
+          </span>
         </div>
 
         <div className="flex flex-col gap-1">
           <label htmlFor="foto" className={rotulo}>URL da foto</label>
           <input id="foto" className={campo}
             value={foto} onChange={(e) => setFoto(e.target.value)} />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <label htmlFor="linkGithub" className={rotulo}>GitHub</label>
+          <input id="linkGithub" type="url" className={campo} maxLength={200}
+            placeholder="https://github.com/seu-usuario"
+            value={linkGithub} onChange={(e) => setLinkGithub(e.target.value)} />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <label htmlFor="linkLinkedin" className={rotulo}>LinkedIn</label>
+          <input id="linkLinkedin" type="url" className={campo} maxLength={200}
+            placeholder="https://www.linkedin.com/in/seu-perfil"
+            value={linkLinkedin} onChange={(e) => setLinkLinkedin(e.target.value)} />
         </div>
 
         <fieldset className="flex flex-col gap-4 p-4 border rounded border-sky-100">
