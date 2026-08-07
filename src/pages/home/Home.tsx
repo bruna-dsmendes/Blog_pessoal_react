@@ -1,73 +1,160 @@
-import ListaPostagens from "../../components/postagem/listapostagens/ListaPostagens";
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { RiseLoader } from 'react-spinners'
+import CardPostagem from '../../components/postagem/cardpostagem/CardPostagem'
+import type { PostagemResumo } from '../../models/Postagem'
+import type Tag from '../../models/Tag'
+import { feed } from '../../services/postagemService'
+import { listar } from '../../services/tagService'
+import { daPlataforma, type Estatisticas } from '../../services/estatisticaService'
+
+/*
+ * Abaixo disso, número em destaque comunica o contrário do que se quer: chama
+ * atenção para o vazio. O bloco de estatísticas só aparece quando a plataforma
+ * tem volume que justifique.
+ */
+const ARTIGOS_PARA_MOSTRAR_NUMEROS = 10
+
+function Numero({ valor, rotulo }: { valor: string; rotulo: string }) {
+  return (
+    <div className="p-6 text-center bg-white border shadow-sm rounded-2xl border-sky-100">
+      <span className="block text-3xl font-black tracking-tight text-slate-800">{valor}</span>
+      <span className="block mt-1 font-mono text-xs font-bold tracking-wider uppercase text-slate-400">
+        {rotulo}
+      </span>
+    </div>
+  )
+}
+
+function Destaque({ postagem }: { postagem: PostagemResumo }) {
+  return (
+    <Link
+      to={`/artigo/${postagem.slug}`}
+      className="grid overflow-hidden transition-shadow bg-white border md:grid-cols-2 rounded-2xl border-sky-100 hover:shadow-lg"
+    >
+      {postagem.capaUrl ? (
+        <img src={postagem.capaUrl} alt="" className="object-cover w-full h-full min-h-56" />
+      ) : (
+        <div className="min-h-56 bg-gradient-to-br from-sky-100 to-sky-200" />
+      )}
+
+      <div className="flex flex-col justify-center gap-3 p-8">
+        <span className="font-mono text-xs font-bold tracking-wider uppercase text-sky-600">
+          Último publicado
+        </span>
+
+        <h2 className="text-2xl font-black leading-tight text-slate-800">{postagem.titulo}</h2>
+
+        {postagem.subtitulo && (
+          <p className="text-slate-500 line-clamp-3">{postagem.subtitulo}</p>
+        )}
+
+        <div className="flex items-center gap-2 mt-2 text-sm text-slate-400">
+          <span className="font-semibold text-slate-600">{postagem.autor?.nome}</span>
+          <span>· {postagem.tempoLeitura} min de leitura</span>
+        </div>
+      </div>
+    </Link>
+  )
+}
 
 function Home() {
+
+  const [postagens, setPostagens] = useState<PostagemResumo[]>([])
+  const [tags, setTags] = useState<Tag[]>([])
+  const [estatisticas, setEstatisticas] = useState<Estatisticas | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    Promise.all([feed(0, 7), listar(0, 12), daPlataforma()])
+      .then(([pagina, paginaTags, numeros]) => {
+        setPostagens(pagina.conteudo)
+        setTags(paginaTags.conteudo)
+        setEstatisticas(numeros)
+      })
+      .catch(() => { /* a tela funciona vazia; o erro não vale um alerta na home */ })
+      .finally(() => setIsLoading(false))
+  }, [])
+
+  const [destaque, ...demais] = postagens
+
+  const horas = estatisticas ? Math.round(estatisticas.minutosDeConteudo / 60) : 0
+
+  const mostrarNumeros =
+    estatisticas !== null && estatisticas.artigosPublicados >= ARTIGOS_PARA_MOSTRAR_NUMEROS
+
   return (
     <>
+      <section className="pb-16 border-b bg-sky-100 border-sky-200">
+        <div className="container px-8 py-16 mx-auto">
+          <h1 className="text-6xl font-black leading-none tracking-tight md:text-7xl">
+            <span className="bg-gradient-to-r from-slate-800 via-[#5ea2df] to-sky-600 bg-clip-text text-transparent">
+              Simetria Dev
+            </span>
+          </h1>
 
-      <div className="bg-sky-100 border-b border-sky-200 pb-16">
-        <div className="container grid grid-cols-2 text-sky-900 mx-auto px-8 py-16">
+          <p className="max-w-xl mt-6 text-xl font-medium leading-relaxed text-slate-600">
+            O espaço para simplificar conteúdos extensos e organizar nossa jornada tech em grupo.
+            Faça o seu
+            <span className="text-[#5ea2df] font-mono font-bold"> &lt;registro de aprendizado/&gt;</span>.
+          </p>
 
-          <div className="flex flex-col gap-5 items-start justify-center pr-4">
-            <h2 className="text-7xl font-black tracking-tight text-slate-800 leading-none">
-              <span className="bg-gradient-to-r from-slate-800 via-[#5ea2df] to-sky-600 bg-clip-text text-transparent">
-                Simetria Dev
-              </span>
-            </h2>
-
-            <p className="text-xl font-medium text-slate-600 max-w-md mt-2 leading-relaxed">
-              O espaço para simplificar conteúdos extensos e organizar nossa jornada tech em grupo. Faça o seu
-              <span className="text-[#5ea2df] font-mono font-bold"> &lt;registro de aprendizado/&gt;</span>.
-            </p>
-
-            <div className="mt-4 px-4 py-2 rounded-full bg-white/60 border border-sky-300 text-xs font-mono font-bold uppercase tracking-wider text-sky-800 shadow-sm flex items-center gap-1.5">
-              <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              🚀 Espaço Colaborativo
+          {tags.length > 0 && (
+            <div className="flex flex-wrap gap-2 mt-8">
+              {tags.map((tag) => (
+                <Link
+                  key={tag.id}
+                  to={`/tag/${tag.slug}`}
+                  className="px-3 py-1.5 text-sm font-semibold transition-colors bg-white border rounded-full border-sky-200 text-sky-800 hover:bg-sky-50"
+                >
+                  {tag.nome}
+                </Link>
+              ))}
             </div>
-          </div>
-
-          <div className="flex justify-center items-center">
-            <img
-              src="https://ik.imagekit.io/bruumendes/27622626-b683-4d2e-92b9-d7f49d017f48.png"
-              alt="Imagem Página Home"
-              className="w-4/5 object-contain drop-shadow-xl"
-            />
-          </div>
-
+          )}
         </div>
-      </div>
+      </section>
 
-      <div className="container mx-auto px-8 -mt-10 relative z-10">
-        <div className="grid grid-cols-3 gap-6 max-w-4xl mx-auto">
-
-          <div className="bg-white p-6 rounded-2xl shadow-md border border-sky-100 text-center transform hover:-translate-y-1 transition-all duration-300">
-            <span className="block text-3xl font-black text-slate-800 tracking-tight">+10</span>
-            <span className="text-xs text-slate-400 font-mono uppercase tracking-wider font-bold block mt-1">
-              Resumos Criados
-            </span>
+      {mostrarNumeros && (
+        <div className="container relative z-10 px-8 mx-auto -mt-10">
+          <div className="grid max-w-4xl grid-cols-2 gap-6 mx-auto md:grid-cols-4">
+            <Numero valor={String(estatisticas.artigosPublicados)} rotulo="artigos" />
+            <Numero valor={String(estatisticas.autores)} rotulo="autores" />
+            <Numero valor={String(estatisticas.tags)} rotulo="temas" />
+            <Numero valor={horas > 0 ? `${horas}h` : `${estatisticas.minutosDeConteudo}min`} rotulo="de leitura" />
           </div>
-
-          <div className="bg-white p-6 rounded-2xl shadow-md border-2 border-[#5ea2df] text-center transform hover:-translate-y-1 transition-all duration-300">
-            <span className="block text-3xl font-black text-[#5ea2df] tracking-tight">0h</span>
-            <span className="text-xs text-slate-500 font-mono uppercase tracking-wider font-bold block mt-1">
-              Conteúdo em Vídeo
-            </span>
-          </div>
-
-          <div className="bg-white p-6 rounded-2xl shadow-md border border-sky-100 text-center transform hover:-translate-y-1 transition-all duration-300">
-            <span className="block text-3xl font-black text-slate-800 tracking-tight">23</span>
-            <span className="text-xs text-slate-400 font-mono uppercase tracking-wider font-bold block mt-1">
-              Projetos no GitHub
-            </span>
-          </div>
-
         </div>
-      </div>
+      )}
 
-      <div className="pt-12">
-        <ListaPostagens />
+      <div className="container px-8 mx-auto my-12">
+        {isLoading ? (
+          <div className="flex justify-center my-16">
+            <RiseLoader color="#5ea2df" size={24} />
+          </div>
+        ) : postagens.length === 0 ? (
+          <p className="my-16 text-center text-slate-500">
+            Nenhum artigo publicado ainda. Que tal ser a primeira pessoa?
+          </p>
+        ) : (
+          <>
+            <Destaque postagem={destaque} />
+
+            {demais.length > 0 && (
+              <>
+                <h2 className="mt-16 mb-6 text-xl font-bold text-slate-800">Publicados recentemente</h2>
+
+                <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+                  {demais.map((postagem) => (
+                    <CardPostagem key={postagem.id} postagem={postagem} />
+                  ))}
+                </div>
+              </>
+            )}
+          </>
+        )}
       </div>
     </>
   )
 }
 
-export default Home;
+export default Home
