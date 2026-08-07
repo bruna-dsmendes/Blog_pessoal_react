@@ -188,7 +188,7 @@ function FormPostagem() {
           </div>
 
           {preview ? (
-            <div className="p-4 border-2 rounded border-sky-100 min-h-80 prose-slate max-w-none">
+            <div className="p-4 border-2 rounded border-sky-100 min-h-80 prose prose-sm prose-slate max-w-none">
               <ReactMarkdown remarkPlugins={[remarkGfm]}>
                 {conteudo || '_Nada escrito ainda._'}
               </ReactMarkdown>

@@ -90,7 +90,7 @@ function Artigo() {
         injetada dentro do markdown vira texto em vez de virar script.
         Habilitar rehype-raw aqui abriria XSS.
       */}
-      <div className="mt-10 prose-slate max-w-none">
+      <div className="mt-10 prose prose-slate max-w-none prose-headings:font-bold prose-a:text-sky-600 prose-pre:bg-slate-900">
         <ReactMarkdown remarkPlugins={[remarkGfm]}>{postagem.conteudo}</ReactMarkdown>
       </div>
 

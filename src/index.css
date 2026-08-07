@@ -1,1 +1,4 @@
 @import "tailwindcss";
+
+/* Estiliza o markdown renderizado nos artigos e nas páginas legais. */
+@plugin "@tailwindcss/typography";
