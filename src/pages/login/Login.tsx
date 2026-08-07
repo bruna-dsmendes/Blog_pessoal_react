@@ -5,6 +5,7 @@ import { RiseLoader } from "react-spinners";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import PainelMarca from "../../components/marca/PainelMarca";
 
 const schemaLogin = yup.object({
   usuario: yup
@@ -41,76 +42,77 @@ function Login() {
     handleLogin(data);
   }
 
+  const campo = (temErro: boolean) =>
+    `border-2 rounded p-2.5 outline-none transition-colors ${
+      temErro ? 'border-red-400 focus:border-red-500' : 'border-sky-200 focus:border-[#5ea2df]'
+    }`;
+
   return (
-    <>
-      <div className="grid grid-cols-1 lg:grid-cols-2 h-auto lg:h-[calc(100vh-180px)] place-items-center font-bold px-4 py-8 lg:py-0">
+    <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[calc(100vh-180px)]">
 
-        <form
-          className="flex justify-center items-center flex-col w-full lg:w-1/2 gap-4"
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <h2 className="text-sky-900 text-5xl mb-2">Entrar</h2>
+      <div className="flex items-center justify-center px-6 py-16">
+        <form className="flex flex-col w-full max-w-sm gap-5" onSubmit={handleSubmit(onSubmit)}>
 
-          <div className="flex flex-col w-full gap-1">
-            <label htmlFor="usuario">Usuário</label>
+          <div>
+            <h1 className="text-4xl font-black tracking-tight text-slate-800">Entrar</h1>
+            <p className="mt-2 text-slate-500">Bom te ver de novo.</p>
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="usuario" className="text-sm font-semibold text-slate-700">E-mail</label>
             <input
-              type="text"
+              type="email"
               id="usuario"
-              placeholder="Ex: bruna@email.com"
+              placeholder="voce@email.com"
+              autoComplete="email"
               {...register("usuario")}
-              className={`border-2 rounded p-2 outline-none transition-all
-                ${errors.usuario ? 'border-red-500 focus:border-red-500' : 'border-sky-200 focus:border-[#5ea2df]'}`}
+              className={campo(!!errors.usuario)}
             />
             {errors.usuario && (
-              <span className="text-xs font-bold text-red-500 font-mono mt-0.5">
-                {errors.usuario.message}
-              </span>
+              <span className="text-xs font-semibold text-red-500">{errors.usuario.message}</span>
             )}
           </div>
 
-          <div className="flex flex-col w-full gap-1">
-            <label htmlFor="senha">Senha</label>
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="senha" className="text-sm font-semibold text-slate-700">Senha</label>
             <input
               type="password"
               id="senha"
-              placeholder="Digite sua senha"
+              placeholder="Sua senha"
+              autoComplete="current-password"
               {...register("senha")}
-              className={`border-2 rounded p-2 outline-none transition-all
-                ${errors.senha ? 'border-red-500 focus:border-red-500' : 'border-sky-200 focus:border-[#5ea2df]'}`}
+              className={campo(!!errors.senha)}
             />
             {errors.senha && (
-              <span className="text-xs font-bold text-red-500 font-mono mt-0.5">
-                {errors.senha.message}
-              </span>
+              <span className="text-xs font-semibold text-red-500">{errors.senha.message}</span>
             )}
           </div>
 
-          {/* Botão de Entrar */}
           <button
-            type='submit'
-            className="rounded bg-sky-200 flex justify-center hover:bg-sky-300 text-sky-900 w-1/2 py-2 mt-2 transition-colors">
-            {isLoading ? (
-              <RiseLoader color="#0c4a6e" size={14} />
-            ) : (
-              <span>Entrar</span>
-            )}
+            type="submit"
+            disabled={isLoading}
+            className="flex justify-center py-3 mt-2 font-bold text-white transition-colors rounded bg-sky-500 hover:bg-sky-600 disabled:opacity-60"
+          >
+            {isLoading ? <RiseLoader color="#ffffff" size={10} /> : <span>Entrar</span>}
           </button>
 
-          <hr className="border-sky-200 w-full my-2" />
-
-          <p className="font-normal text-slate-600">
+          <p className="text-sm text-center text-slate-500">
             Ainda não tem uma conta?{' '}
-            <Link to="/cadastro" className="text-sky-700 font-bold hover:underline">
+            <Link to="/cadastro" className="font-bold text-sky-600 hover:underline">
               Cadastre-se
             </Link>
           </p>
-        </form>
 
-        <div
-          className="hidden lg:block w-full h-full bg-[url('https://ik.imagekit.io/bruumendes/Gemini_Generated_Image_vy21m7vy21m7vy21.png')] bg-no-repeat bg-cover bg-center"
-        ></div>
-      </div >
-    </>
+          <p className="text-sm text-center">
+            <Link to="/" className="text-slate-400 hover:text-slate-600">
+              Ou continue lendo sem entrar
+            </Link>
+          </p>
+        </form>
+      </div>
+
+      <PainelMarca />
+    </div>
   );
 }
 
