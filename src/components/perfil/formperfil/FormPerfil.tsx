@@ -2,7 +2,8 @@ import { useContext, useEffect, useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { PropagateLoader } from 'react-spinners'
 import { AuthContext } from '../../../contexts/AuthContext'
-import type { UsuarioAtualizarRequest } from '../../../models/Usuario'
+import type { Link, TipoLink, UsuarioAtualizarRequest } from '../../../models/Usuario'
+import { ROTULO_DO_LINK, TIPOS_DE_LINK } from '../../../models/tiposDeLink'
 import { atualizarPerfil } from '../../../services/usuarioService'
 import { mensagemDeErro } from '../../../services/api'
 import { ToastAlerta } from '../../../utils/ToastAlerta'
@@ -19,8 +20,7 @@ function FormPerfil() {
   const [email, setEmail] = useState('')
   const [foto, setFoto] = useState('')
   const [bio, setBio] = useState('')
-  const [linkGithub, setLinkGithub] = useState('')
-  const [linkLinkedin, setLinkLinkedin] = useState('')
+  const [links, setLinks] = useState<Link[]>([])
   const [senha, setSenha] = useState('')
   const [confirmarSenha, setConfirmarSenha] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -33,8 +33,7 @@ function FormPerfil() {
     setEmail(usuario.usuario)
     setFoto(usuario.foto ?? '')
     setBio(usuario.bio ?? '')
-    setLinkGithub(usuario.linkGithub ?? '')
-    setLinkLinkedin(usuario.linkLinkedin ?? '')
+    setLinks(usuario.links)
   }, [usuario])
 
   async function salvar(e: FormEvent<HTMLFormElement>) {
@@ -57,8 +56,7 @@ function FormPerfil() {
       usuario: email,
       foto: foto.trim() || null,
       bio: bio.trim() || null,
-      linkGithub: linkGithub.trim() || null,
-      linkLinkedin: linkLinkedin.trim() || null,
+      links: links.filter((link) => link.url.trim() !== ''),
       ...(senha !== '' ? { senha } : {}),
     }
 
@@ -71,6 +69,17 @@ function FormPerfil() {
     } finally {
       setIsLoading(false)
     }
+  }
+
+  // Cada rede aparece uma vez só, então o select some quando todas foram usadas.
+  const tipoDisponivel = TIPOS_DE_LINK.find((tipo) => !links.some((link) => link.tipo === tipo))
+
+  function trocarTipo(indice: number, tipo: TipoLink) {
+    setLinks(links.map((link, i) => (i === indice ? { ...link, tipo } : link)))
+  }
+
+  function trocarUrl(indice: number, url: string) {
+    setLinks(links.map((link, i) => (i === indice ? { ...link, url } : link)))
   }
 
   const campo = 'border-2 border-sky-200 rounded p-2 outline-none focus:border-sky-400 transition-colors'
@@ -120,19 +129,57 @@ function FormPerfil() {
             value={foto} onChange={(e) => setFoto(e.target.value)} />
         </div>
 
-        <div className="flex flex-col gap-1">
-          <label htmlFor="linkGithub" className={rotulo}>GitHub</label>
-          <input id="linkGithub" type="url" className={campo} maxLength={200}
-            placeholder="https://github.com/seu-usuario"
-            value={linkGithub} onChange={(e) => setLinkGithub(e.target.value)} />
-        </div>
+        <fieldset className="flex flex-col gap-3 p-4 border rounded border-sky-100">
+          <legend className="px-2 text-sm font-semibold text-slate-500">
+            Links do perfil
+          </legend>
 
-        <div className="flex flex-col gap-1">
-          <label htmlFor="linkLinkedin" className={rotulo}>LinkedIn</label>
-          <input id="linkLinkedin" type="url" className={campo} maxLength={200}
-            placeholder="https://www.linkedin.com/in/seu-perfil"
-            value={linkLinkedin} onChange={(e) => setLinkLinkedin(e.target.value)} />
-        </div>
+          {links.length === 0 && (
+            <p className="text-sm text-slate-400">Nenhum link adicionado ainda.</p>
+          )}
+
+          {links.map((link, indice) => (
+            <div key={link.tipo} className="flex gap-2">
+              <select
+                className={`${campo} w-36`}
+                value={link.tipo}
+                onChange={(e) => trocarTipo(indice, e.target.value as TipoLink)}
+              >
+                {TIPOS_DE_LINK
+                  .filter((tipo) => tipo === link.tipo || !links.some((atual) => atual.tipo === tipo))
+                  .map((tipo) => (
+                    <option key={tipo} value={tipo}>{ROTULO_DO_LINK[tipo]}</option>
+                  ))}
+              </select>
+
+              <input
+                type="url" className={`${campo} flex-1`} maxLength={300}
+                placeholder="https://..."
+                value={link.url}
+                onChange={(e) => trocarUrl(indice, e.target.value)}
+              />
+
+              <button
+                type="button"
+                aria-label={`Remover ${ROTULO_DO_LINK[link.tipo]}`}
+                onClick={() => setLinks(links.filter((_, i) => i !== indice))}
+                className="px-3 font-bold rounded text-slate-400 hover:text-red-500 hover:bg-red-50"
+              >
+                ×
+              </button>
+            </div>
+          ))}
+
+          {tipoDisponivel && (
+            <button
+              type="button"
+              onClick={() => setLinks([...links, { tipo: tipoDisponivel, url: '' }])}
+              className="self-start px-4 py-2 text-sm font-semibold rounded text-sky-800 bg-sky-100 hover:bg-sky-200"
+            >
+              Adicionar link
+            </button>
+          )}
+        </fieldset>
 
         <fieldset className="flex flex-col gap-4 p-4 border rounded border-sky-100">
           <legend className="px-2 text-sm font-semibold text-slate-500">

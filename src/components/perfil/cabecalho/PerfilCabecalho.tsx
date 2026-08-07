@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import type { PerfilPublico } from '../../../models/Usuario'
+import { ROTULO_DO_LINK } from '../../../models/tiposDeLink'
 
 interface PerfilCabecalhoProps {
   perfil: PerfilPublico
@@ -60,20 +61,19 @@ function PerfilCabecalho({ perfil, acoes }: PerfilCabecalhoProps) {
             <p className="max-w-xl mt-4 leading-relaxed text-slate-600">{perfil.bio}</p>
           )}
 
-          {(perfil.linkGithub || perfil.linkLinkedin) && (
+          {perfil.links.length > 0 && (
             <div className="flex flex-wrap gap-4 mt-4 text-sm font-semibold">
-              {perfil.linkGithub && (
-                <a href={perfil.linkGithub} target="_blank" rel="noreferrer"
-                  className="text-slate-600 hover:text-sky-600">
-                  GitHub ↗
+              {perfil.links.map((link) => (
+                <a
+                  key={link.tipo}
+                  href={link.url}
+                  target="_blank"
+                  rel="noreferrer me"
+                  className="text-slate-600 hover:text-sky-600"
+                >
+                  {ROTULO_DO_LINK[link.tipo]} ↗
                 </a>
-              )}
-              {perfil.linkLinkedin && (
-                <a href={perfil.linkLinkedin} target="_blank" rel="noreferrer"
-                  className="text-slate-600 hover:text-sky-600">
-                  LinkedIn ↗
-                </a>
-              )}
+              ))}
             </div>
           )}
 

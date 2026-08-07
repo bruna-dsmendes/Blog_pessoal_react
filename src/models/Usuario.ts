@@ -1,3 +1,11 @@
+export type TipoLink =
+  | 'GITHUB' | 'LINKEDIN' | 'PORTFOLIO' | 'SITE' | 'INSTAGRAM' | 'YOUTUBE' | 'X'
+
+export interface Link {
+  tipo: TipoLink
+  url: string
+}
+
 export default interface Usuario {
   id: number
   nome: string
@@ -5,8 +13,7 @@ export default interface Usuario {
   usuario: string
   foto: string | null
   bio: string | null
-  linkGithub: string | null
-  linkLinkedin: string | null
+  links: Link[]
 }
 
 /** Página aberta, por isso sem e-mail. */
@@ -15,8 +22,7 @@ export interface PerfilPublico {
   nome: string
   foto: string | null
   bio: string | null
-  linkGithub: string | null
-  linkLinkedin: string | null
+  links: Link[]
   artigosPublicados: number
   minutosEscritos: number
   tagsMaisUsadas: { id: number; nome: string; slug: string }[]
@@ -37,8 +43,7 @@ export interface UsuarioAtualizarRequest {
   senha?: string
   foto?: string | null
   bio?: string | null
-  linkGithub?: string | null
-  linkLinkedin?: string | null
+  links: Link[]
 }
 
 export interface LoginRequest {
