@@ -1,6 +1,7 @@
 import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { AuthContext } from '../../contexts/AuthContext'
+import LinkLegal from '../legal/LinkLegal'
 
 const REPOSITORIO = 'https://github.com/bruna-dsmendes/blog-pessoal'
 const DOCUMENTACAO = 'https://blogpessoal-qkji.onrender.com/swagger-ui/index.html'
@@ -60,9 +61,17 @@ function Footer() {
 
         <div>
           <Titulo>Legal</Titulo>
-          <ul className="flex flex-col gap-2 mb-8">
-            <li><Link to="/privacidade" className={item}>Política de Privacidade</Link></li>
-            <li><Link to="/termos" className={item}>Termos de Uso</Link></li>
+          <ul className="flex flex-col items-start gap-2 mb-8">
+            <li>
+              <LinkLegal documento="privacidade" className={item}>
+                Política de Privacidade
+              </LinkLegal>
+            </li>
+            <li>
+              <LinkLegal documento="termos" className={item}>
+                Termos de Uso
+              </LinkLegal>
+            </li>
           </ul>
 
           <Titulo>Projeto</Titulo>

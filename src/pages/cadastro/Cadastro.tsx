@@ -1,6 +1,7 @@
 import { useState, type ChangeEvent, type FormEvent } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { PropagateLoader } from "react-spinners"
+import LinkLegal from "../../components/legal/LinkLegal"
 import PainelMarca from "../../components/marca/PainelMarca"
 import type { UsuarioRequest } from "../../models/Usuario"
 import { cadastrar } from "../../services/usuarioService"
@@ -153,13 +154,13 @@ function Cadastro() {
 
           <p className="text-xs leading-relaxed text-center text-slate-500">
             Ao criar a conta você concorda com os{' '}
-            <Link to="/termos" className="font-semibold text-sky-600 hover:underline">
+            <LinkLegal documento="termos" className="font-semibold text-sky-600 hover:underline">
               Termos de Uso
-            </Link>{' '}
+            </LinkLegal>{' '}
             e a{' '}
-            <Link to="/privacidade" className="font-semibold text-sky-600 hover:underline">
+            <LinkLegal documento="privacidade" className="font-semibold text-sky-600 hover:underline">
               Política de Privacidade
-            </Link>.
+            </LinkLegal>.
           </p>
 
           <p className="text-sm text-center text-slate-500">
