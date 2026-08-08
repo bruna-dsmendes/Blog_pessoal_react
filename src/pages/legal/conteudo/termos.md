@@ -96,5 +96,5 @@ plataforma. O uso continuado após a comunicação indica concordância.
 ## 9. Lei aplicável e foro
 
 Aplica-se a legislação brasileira. Fica eleito o foro da comarca de
-**[BARUERI/SP]** para dirimir controvérsias, ressalvada a competência do foro do
+**BARUERI/SP** para dirimir controvérsias, ressalvada a competência do foro do
 domicílio do consumidor quando aplicável.
